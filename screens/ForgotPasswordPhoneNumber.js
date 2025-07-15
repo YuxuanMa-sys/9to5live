@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES, icons, images } from '../constants';
 import Header from '../components/Header';
-import Checkbox from 'expo-checkbox';
+import CheckBox from '@react-native-community/checkbox';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -153,11 +153,11 @@ const ForgotPasswordPhoneNumber = ({ navigation }) => {
                     </View>
                     <View style={styles.checkBoxContainer}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Checkbox
+                            <CheckBox
                                 style={styles.checkbox}
                                 value={isChecked}
-                                color={isChecked ? COLORS.primary : dark ? COLORS.primary : "gray"}
                                 onValueChange={setChecked}
+                                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
                             />
                             <View style={{ flex: 1 }}>
                                 <Text style={[styles.privacy, {

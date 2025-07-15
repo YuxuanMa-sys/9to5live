@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
+import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../theme/ThemeProvider';
 
 const Call = ({ navigation }) => {
@@ -21,7 +21,7 @@ const Call = ({ navigation }) => {
                         resizeMode='contain'
                         style={[styles.arrowLeftIcon, {
                             tintColor: dark ? COLORS.white : COLORS.greyscale900
-                        }]} 
+                        }]}
                     />
                 </TouchableOpacity>
                 <View style={styles.userInfo}>

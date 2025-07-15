@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import { reducer } from '../utils/reducers/formReducers';
 import { validateInput } from '../utils/actions/formActions';
 import Input from '../components/Input';
-import Checkbox from 'expo-checkbox';
+import CheckBox from '@react-native-community/checkbox';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -93,7 +93,7 @@ const CreateNewPassword = ({ navigation }) => {
             <Image
               source={dark ? illustrations.passwordSuccessDark : illustrations.newPassword}
               resizeMode='contain'
-              style={styles.success} 
+              style={styles.success}
             />
           </View>
           <Text style={[styles.title, {
@@ -121,11 +121,11 @@ const CreateNewPassword = ({ navigation }) => {
           />
           <View style={styles.checkBoxContainer}>
             <View style={{ flexDirection: 'row' }}>
-              <Checkbox
+              <CheckBox
                 style={styles.checkbox}
                 value={isChecked}
-                color={isChecked ? COLORS.primary : dark ? COLORS.primary : "gray"}
                 onValueChange={setChecked}
+                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
               />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.privacy, {

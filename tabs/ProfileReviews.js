@@ -4,7 +4,7 @@ import { COLORS, icons } from '../constants';
 import { ScrollView } from 'react-native-virtualized-view';
 import { reviews } from '../data';
 import ReviewCard from '../components/ReviewCard';
-import { Fontisto } from "@expo/vector-icons";
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -37,8 +37,8 @@ const ProfileReviews = () => {
             resizeMode='contain'
             style={styles.starIcon}
           />
-          <Text style={[styles.starTitle, { 
-            color: dark? COLORS.white : COLORS.greyscale900
+          <Text style={[styles.starTitle, {
+            color: dark ? COLORS.white : COLORS.greyscale900
           }]}>{"  "}4.8 (4,479 reviews)</Text>
         </View>
         <TouchableOpacity

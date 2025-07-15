@@ -2,7 +2,8 @@ import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, StatusBar }
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, icons, images } from '../constants';
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import { useTheme } from '../theme/ThemeProvider';
 

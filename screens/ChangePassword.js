@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import { reducer } from '../utils/reducers/formReducers';
 import { validateInput } from '../utils/actions/formActions';
 import Input from '../components/Input';
-import Checkbox from 'expo-checkbox';
+import CheckBox from '@react-native-community/checkbox';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -89,7 +89,7 @@ const ChangePassword = ({ navigation }) => {
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <Header title="Change Password"/>
+        <Header title="Change Password" />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.logoContainer}>
             <Image
@@ -131,11 +131,11 @@ const ChangePassword = ({ navigation }) => {
           />
           <View style={styles.checkBoxContainer}>
             <View style={{ flexDirection: 'row' }}>
-              <Checkbox
+              <CheckBox
                 style={styles.checkbox}
                 value={isChecked}
-                color={isChecked ? COLORS.primary : dark ? COLORS.primary : "gray"}
                 onValueChange={setChecked}
+                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
               />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black }]}>Remenber me</Text>

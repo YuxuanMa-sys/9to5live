@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { SIZES, COLORS } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { cancelledBookings } from '../data';
 
 const CancelledBooking = () => {

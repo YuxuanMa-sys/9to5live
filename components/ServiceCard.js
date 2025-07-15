@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS, SIZES, icons } from '../constants';
-import { FontAwesome } from '@expo/vector-icons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '../theme/ThemeProvider';
 
 const ServiceCard = ({
@@ -19,9 +19,9 @@ const ServiceCard = ({
     const { dark } = useTheme();
 
     return (
-        <TouchableOpacity 
-           onPress={onPress} 
-            style={[styles.container, { 
+        <TouchableOpacity
+            onPress={onPress}
+            style={[styles.container, {
                 backgroundColor: dark ? COLORS.dark2 : COLORS.white
             }]}>
             <Image
@@ -39,19 +39,19 @@ const ServiceCard = ({
                         <Image
                             source={isBookmarked ? icons.heart : icons.heartOutline}
                             resizeMode='contain'
-                            style={[styles.bookmarkIcon, { 
-                                tintColor: isBookmarked? COLORS.red : COLORS.primary
+                            style={[styles.bookmarkIcon, {
+                                tintColor: isBookmarked ? COLORS.red : COLORS.primary
                             }]}
                         />
                     </TouchableOpacity>
                 </View>
-                <Text style={[styles.name, { 
-                     color: dark ? COLORS.secondaryWhite : COLORS.greyscale900,
+                <Text style={[styles.name, {
+                    color: dark ? COLORS.secondaryWhite : COLORS.greyscale900,
                 }]}>{name}</Text>
                 <View style={styles.priceContainer}>
                     <Text style={styles.price}>${price}</Text>
                     {
-                        isOnDiscount && <Text style={[styles.oldPrice, { 
+                        isOnDiscount && <Text style={[styles.oldPrice, {
                             color: dark ? COLORS.greyscale300 : COLORS.grayscale700,
                         }]}>{"   "}${oldPrice}</Text>
                     }
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        alignItems:"center",
+        alignItems: "center",
         height: 148,
         backgroundColor: COLORS.white,
         shadowColor: COLORS.black,

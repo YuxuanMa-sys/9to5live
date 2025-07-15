@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import { reducer } from '../utils/reducers/formReducers';
 import { validateInput } from '../utils/actions/formActions';
 import Input from '../components/Input';
-import Checkbox from 'expo-checkbox';
+import CheckBox from '@react-native-community/checkbox';  // 👈 替换了 expo-checkbox
 import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import OrSeparator from '../components/OrSeparator';
@@ -47,24 +47,22 @@ const Login = ({ navigation }) => {
     }
   }, [error]);
 
-  // implementing apple authentication
   const appleAuthHandler = () => {
     console.log("Apple Authentication")
   };
 
-  // implementing facebook authentication
   const facebookAuthHandler = () => {
     console.log("Facebook Authentication")
   };
 
-  // Implementing google authentication
   const googleAuthHandler = () => {
     console.log("Google Authentication")
   };
 
   return (
     <SafeAreaView style={[styles.area, {
-      backgroundColor: colors.background }]}>
+      backgroundColor: colors.background
+    }]}>
       <View style={[styles.container, {
         backgroundColor: colors.background
       }]}>
@@ -101,16 +99,16 @@ const Login = ({ navigation }) => {
           />
           <View style={styles.checkBoxContainer}>
             <View style={{ flexDirection: 'row' }}>
-              <Checkbox
-                style={styles.checkbox}
+              <CheckBox
                 value={isChecked}
-                color={isChecked ? COLORS.primary : dark ? COLORS.primary : "gray"}
                 onValueChange={setChecked}
+                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
+                style={styles.checkbox}
               />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.privacy, {
                   color: dark ? COLORS.white : COLORS.black
-                }]}>Remenber me</Text>
+                }]}>Remember me</Text>
               </View>
             </View>
           </View>
@@ -125,7 +123,6 @@ const Login = ({ navigation }) => {
             <Text style={styles.forgotPasswordBtnText}>Forgot the password?</Text>
           </TouchableOpacity>
           <View>
-
             <OrSeparator text="or continue with" />
             <View style={styles.socialBtnContainer}>
               <SocialButton
@@ -179,17 +176,6 @@ const styles = StyleSheet.create({
     marginVertical: 32
   },
   title: {
-    fontSize: 28,
-    fontFamily: "bold",
-    color: COLORS.black,
-    textAlign: "center"
-  },
-  center: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
     fontSize: 26,
     fontFamily: "semiBold",
     color: COLORS.black,
@@ -206,21 +192,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
     height: 16,
     width: 16,
-    borderRadius: 4,
-    borderColor: COLORS.primary,
-    borderWidth: 2,
   },
   privacy: {
     fontSize: 12,
     fontFamily: "regular",
     color: COLORS.black,
-  },
-  socialTitle: {
-    fontSize: 19.25,
-    fontFamily: "medium",
-    color: COLORS.black,
-    textAlign: "center",
-    marginVertical: 26
   },
   socialBtnContainer: {
     flexDirection: "row",

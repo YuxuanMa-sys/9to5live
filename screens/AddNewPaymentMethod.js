@@ -8,7 +8,7 @@ import Input from '../components/Input';
 import { validateInput } from '../utils/actions/formActions';
 import { reducer } from '../utils/reducers/formReducers';
 import Button from '../components/Button';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 
 const initialState = {
@@ -55,13 +55,13 @@ const AddNewPaymentMethod = ({ navigation }) => {
                     <Image
                         resizeMode="contain"
                         source={icons.arrowBack}
-                        style={[styles.headerIcon, { 
-                            tintColor: dark? COLORS.white : COLORS.greyscale900
+                        style={[styles.headerIcon, {
+                            tintColor: dark ? COLORS.white : COLORS.greyscale900
                         }]}
                     />
                 </TouchableOpacity>
-                <Text style={[styles.headerTitle, { 
-                    color: dark? COLORS.white : COLORS.greyscale900
+                <Text style={[styles.headerTitle, {
+                    color: dark ? COLORS.white : COLORS.greyscale900
                 }]}>Add Card</Text>
             </View>
         )
@@ -71,8 +71,8 @@ const AddNewPaymentMethod = ({ navigation }) => {
         return (
             <View style={{ marginVertical: 22 }}>
                 <View style={{ marginTop: 12 }}>
-                    <Text style={[commonStyles.inputHeader, { 
-                        color: dark? COLORS.white : COLORS.greyscale900
+                    <Text style={[commonStyles.inputHeader, {
+                        color: dark ? COLORS.white : COLORS.greyscale900
                     }]}>
                         Card Holder Name
                     </Text>
@@ -85,8 +85,8 @@ const AddNewPaymentMethod = ({ navigation }) => {
                     />
                 </View>
                 <View style={{ marginTop: 12 }}>
-                    <Text style={[commonStyles.inputHeader, { 
-                        color: dark? COLORS.white : COLORS.greyscale900
+                    <Text style={[commonStyles.inputHeader, {
+                        color: dark ? COLORS.white : COLORS.greyscale900
                     }]}>Card Number</Text>
                     <Input
                         id="creditCardNumber"
@@ -103,8 +103,8 @@ const AddNewPaymentMethod = ({ navigation }) => {
                         marginTop: 12,
                     }}>
                     <View style={{ width: (SIZES.width - 32) / 2 - 10 }}>
-                        <Text style={[commonStyles.inputHeader, { 
-                            color: dark? COLORS.white : COLORS.greyscale900
+                        <Text style={[commonStyles.inputHeader, {
+                            color: dark ? COLORS.white : COLORS.greyscale900
                         }]}>
                             Expire Date
                         </Text>
@@ -117,8 +117,8 @@ const AddNewPaymentMethod = ({ navigation }) => {
                         />
                     </View>
                     <View style={{ width: (SIZES.width - 32) / 2 - 10 }}>
-                        <Text style={[commonStyles.inputHeader, { 
-                            color: dark? COLORS.white : COLORS.greyscale900
+                        <Text style={[commonStyles.inputHeader, {
+                            color: dark ? COLORS.white : COLORS.greyscale900
                         }]}>CVV</Text>
                         <Input
                             id="cvv"

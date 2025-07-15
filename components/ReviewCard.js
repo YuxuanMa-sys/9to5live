@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { Fontisto } from "@expo/vector-icons";
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { COLORS, icons } from '../constants';
 import { getTimeAgo } from '../utils/date';
 import { useTheme } from '../theme/ThemeProvider';

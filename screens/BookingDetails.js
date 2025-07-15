@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import { ScrollView } from 'react-native-virtualized-view';
 import DatePickerView from '../components/DatePickerView';
 import { getFormatedDate } from "react-native-modern-datepicker";
-import { AntDesign } from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { hoursData } from '../data';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
@@ -71,11 +71,11 @@ const BookingDetails = ({ navigation }) => {
           />
           <View style={styles.ourContainer}>
             <View>
-              <Text style={[styles.hourTitle, { 
-                color: dark? COLORS.white : COLORS.greyscale900
+              <Text style={[styles.hourTitle, {
+                color: dark ? COLORS.white : COLORS.greyscale900
               }]}>Working Hours</Text>
-              <Text style={[styles.hourSubtitle, { 
-                color: dark ? COLORS.grayscale200 : COLORS.grayscale700 
+              <Text style={[styles.hourSubtitle, {
+                color: dark ? COLORS.grayscale200 : COLORS.grayscale700
               }]}>Cost increase after 2 hrs of work</Text>
             </View>
             <View style={styles.viewContainer}>
@@ -88,8 +88,8 @@ const BookingDetails = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={[styles.title, { 
-            color: dark? COLORS.white : COLORS.greyscale900
+          <Text style={[styles.title, {
+            color: dark ? COLORS.white : COLORS.greyscale900
           }]}>Choose Start Time</Text>
           <View style={{ marginVertical: 12 }}>
             <FlatList
@@ -102,7 +102,7 @@ const BookingDetails = ({ navigation }) => {
           </View>
         </ScrollView>
       </View>
-      <View style={[styles.bottomContainer, { 
+      <View style={[styles.bottomContainer, {
         backgroundColor: colors.background
       }]}>
         <Button

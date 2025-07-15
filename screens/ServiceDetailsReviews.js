@@ -4,7 +4,7 @@ import { COLORS, SIZES, icons, illustrations } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
 import ReviewCard from '../components/ReviewCard';
-import { Fontisto } from "@expo/vector-icons";
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { useTheme } from '../theme/ThemeProvider';
 import Rating from '../components/Rating';
 import Button from '../components/Button';
@@ -17,7 +17,7 @@ const ServiceDetailsReviews = ({ navigation }) => {
     useEffect(() => {
         setModalVisible(true);
     }, []);
-    
+
     /**
      * Render header
      */

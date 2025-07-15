@@ -4,7 +4,8 @@ import { completedBookings } from '../data';
 import { SIZES, COLORS } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 const CompletedBooking = () => {
   const [bookings, setBookings] = useState(completedBookings);

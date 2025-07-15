@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 const ReviewStars = ({ review, size, color }) => {
   const renderStars = () => {
@@ -8,12 +9,12 @@ const ReviewStars = ({ review, size, color }) => {
     for (let i = 0; i < review; i++) {
       stars.push(
         <View
-          style={{marginRight: 4}}
+          style={{ marginRight: 4 }}
           key={i}
         >
-            <FontAwesome key={i} name="star" size={size} color={color} />
+          <FontAwesome key={i} name="star" size={size} color={color} />
         </View>
-      
+
       );
     }
     return stars;

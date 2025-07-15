@@ -4,7 +4,7 @@ import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Calls, Chats } from '../tabs';
-import { Feather } from "@expo/vector-icons";
+import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '../theme/ThemeProvider';
 
 const renderScene = SceneMap({

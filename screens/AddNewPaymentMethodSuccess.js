@@ -3,26 +3,26 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES, illustrations } from '../constants';
 import Button from '../components/Button';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 
 const AddNewPaymentMethodSuccess = ({ navigation }) => {
   const { colors, dark } = useTheme();
-  
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <StatusBar hidden={true} />
+      <StatusBar hidden />
       <View style={[styles.contentContainer, { backgroundColor: colors.background }]}>
         <Image
           source={illustrations.success1}
           resizeMode="contain"
           style={styles.image}
         />
-        <Text style={[styles.heading, { 
-          color: dark? COLORS.white : COLORS.greyscale900
+        <Text style={[styles.heading, {
+          color: dark ? COLORS.white : COLORS.greyscale900
         }]}>Congratulations!</Text>
-        <Text style={[styles.description, { 
-          color: dark? COLORS.white : COLORS.greyscale900
+        <Text style={[styles.description, {
+          color: dark ? COLORS.white : COLORS.greyscale900
         }]}>
           You successfully added a new card, enjoy our service!
         </Text>

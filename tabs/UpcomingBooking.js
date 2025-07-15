@@ -6,7 +6,8 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { useTheme } from '../theme/ThemeProvider';
 import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 const UpcomingBooking = () => {
   const [bookings, setBookings] = useState(upcomingBookings);

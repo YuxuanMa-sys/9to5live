@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
-import { MaterialIcons } from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { launchImagePicker } from '../utils/ImagePickerHelper';
 import SettingsItem from '../components/SettingsItem';
 import { useTheme } from '../theme/ThemeProvider';

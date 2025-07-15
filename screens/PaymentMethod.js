@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Ima
 import React, { useState } from 'react'
 import { COLORS, SIZES, icons } from '../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Ionicons, AntDesign } from "@expo/vector-icons"
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ScrollView } from 'react-native-virtualized-view'
 import PaymentMethodItem from '../components/PaymentMethodItem'
 import { useTheme } from '../theme/ThemeProvider'
@@ -25,8 +26,8 @@ const PaymentMethod = ({ navigation }) => {
             color={dark ? COLORS.white : COLORS.black}
           />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { 
-          color: dark? COLORS.white : COLORS.greyscale900
+        <Text style={[styles.headerTitle, {
+          color: dark ? COLORS.white : COLORS.greyscale900
         }]}>Select Payment Methods</Text>
         <TouchableOpacity>
           <Text style={styles.createTitle}>{"   "}</Text>
@@ -69,12 +70,12 @@ const PaymentMethod = ({ navigation }) => {
         />
         <TouchableOpacity
           onPress={() => navigation.navigate("AddNewPaymentMethod")}
-          style={[styles.addBtn, { 
-            borderColor: dark? COLORS.white : COLORS.gray,
+          style={[styles.addBtn, {
+            borderColor: dark ? COLORS.white : COLORS.gray,
           }]}>
           <AntDesign name="pluscircleo" size={24} color="#BABABA" />
-          <Text style={[styles.addBtnText, { 
-            color: dark? COLORS.white : COLORS.grayscale700,
+          <Text style={[styles.addBtnText, {
+            color: dark ? COLORS.white : COLORS.grayscale700,
           }]}>Add more</Text>
         </TouchableOpacity>
       </View>
@@ -105,19 +106,19 @@ const PaymentMethod = ({ navigation }) => {
         <TouchableWithoutFeedback
           onPress={() => setModalVisible(false)}>
           <View style={styles.modalContainer}>
-            <View style={[styles.modalSubContainer, { 
-              backgroundColor: dark? COLORS.dark2 : COLORS.white,
+            <View style={[styles.modalSubContainer, {
+              backgroundColor: dark ? COLORS.dark2 : COLORS.white,
             }]}>
               <Image
                 source={icons.checked}
                 resizeMode='contain'
                 style={styles.successIcon}
               />
-              <Text style={[styles.modalTitle, { 
-                color: dark? COLORS.white : COLORS.black
+              <Text style={[styles.modalTitle, {
+                color: dark ? COLORS.white : COLORS.black
               }]}>Saved Successfully</Text>
-              <Text style={[styles.modalSubtitle, { 
-                  color: dark ? COLORS.grayscale200 : "#6C6C6C",
+              <Text style={[styles.modalSubtitle, {
+                color: dark ? COLORS.grayscale200 : "#6C6C6C",
               }]}>Get everything ready until it’s time to go on a trip</Text>
               <TouchableOpacity
                 onPress={() => {

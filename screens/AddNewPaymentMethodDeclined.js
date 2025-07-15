@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, SIZES, illustrations } from '../constants';
 import Button from '../components/Button';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 
 const AddNewPaymentMethodDeclined = ({ navigation }) => {
@@ -18,11 +18,11 @@ const AddNewPaymentMethodDeclined = ({ navigation }) => {
           resizeMode="contain"
           style={styles.image}
         />
-        <Text style={[styles.heading, { 
-          color: dark? COLORS.white : COLORS.greyscale900
+        <Text style={[styles.heading, {
+          color: dark ? COLORS.white : COLORS.greyscale900
         }]}>Credit card declined.</Text>
-        <Text style={[styles.description, { 
-          color: dark? COLORS.white : COLORS.greyscale900
+        <Text style={[styles.description, {
+          color: dark ? COLORS.white : COLORS.greyscale900
         }]}>
           Something went wrong, please verify your card information.
         </Text>

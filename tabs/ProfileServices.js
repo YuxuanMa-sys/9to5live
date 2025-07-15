@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS, icons } from '../constants';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProviderLocationMap from '../components/ProviderLocationMap';
 import { ScrollView } from 'react-native-virtualized-view';
 import { useTheme } from '../theme/ThemeProvider';
@@ -24,16 +24,16 @@ const ProfileServices = () => {
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             <Text style={[styles.title, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Description</Text>
-            <Text style={[styles.description, { 
+            <Text style={[styles.description, {
                 marginBottom: 10,
                 color: dark ? COLORS.grayscale200 : COLORS.grayscale700,
-                }]} numberOfLines={showFullDescription ? undefined : initialNumberOfLines}>
+            }]} numberOfLines={showFullDescription ? undefined : initialNumberOfLines}>
                 Introducing our friendly cleaner! They're here to make your home sparkle. With their attention to detail and reliable service, you can count on them to leave your space fresh and tidy. Whether it's dusting, mopping, or vacuuming, they've got you covered. Sit back, relax, and let our cleaner take care of the dirty work for you!
             </Text>
             <TouchableOpacity onPress={toggleDescription}>
                 <Text style={{ color: COLORS.primary }}>{showFullDescription ? 'View Less' : 'View More'}</Text>
             </TouchableOpacity>
-            <Text style={[styles.title, { 
+            <Text style={[styles.title, {
                 color: dark ? COLORS.white : COLORS.greyscale900
             }]}>Service Type</Text>
             <View style={styles.typeContainer}>
@@ -42,17 +42,17 @@ const ProfileServices = () => {
                     resizeMode='contain'
                     style={styles.categoryIcon}
                 />
-                <Text style={[styles.description, { 
+                <Text style={[styles.description, {
                     color: dark ? COLORS.grayscale200 : COLORS.grayscale700
                 }]}>{"  "}Cleaning</Text>
             </View>
-            <Text style={[styles.title, { 
-                 color: dark ? COLORS.white : COLORS.greyscale900
+            <Text style={[styles.title, {
+                color: dark ? COLORS.white : COLORS.greyscale900
             }]}>Location</Text>
             <View style={styles.locationContainer}>
                 <Ionicons name="location-outline" size={14} color={COLORS.primary} />
-                <Text style={[styles.description, { 
-                     color: dark ? COLORS.grayscale200 : COLORS.grayscale700
+                <Text style={[styles.description, {
+                    color: dark ? COLORS.grayscale200 : COLORS.grayscale700
                 }]}>{"  "}255 Grand Park Avenue, New York.</Text>
             </View>
             <ProviderLocationMap providerCoordinates={providerCoordinates} />

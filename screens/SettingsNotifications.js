@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-virtualized-view';
 import Header from '../components/Header';
 import GlobalSettingsItem from '../components/GlobalSettingsItem';
@@ -64,8 +64,8 @@ const SettingsNotifications = () => {
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar hidden/>
-        <Header title="Notifications"/>
+        <StatusBar hidden />
+        <Header title="Notifications" />
         <ScrollView
           style={styles.settingsContainer}
           showsVerticalScrollIndicator={false}>

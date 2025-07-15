@@ -8,7 +8,7 @@ import NotFoundCard from '../components/NotFoundCard';
 import RBSheet from "react-native-raw-bottom-sheet";
 import Button from '../components/Button';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ServiceCard from '../components/ServiceCard';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -54,12 +54,12 @@ const Search = ({ navigation }) => {
             <Image
               source={icons.arrowBack}
               resizeMode='contain'
-              style={[styles.backIcon, { 
+              style={[styles.backIcon, {
                 tintColor: dark ? COLORS.white : COLORS.greyscale900
               }]}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, { 
+          <Text style={[styles.headerTitle, {
             color: dark ? COLORS.white : COLORS.greyscale900
           }]}>
             Search
@@ -69,7 +69,7 @@ const Search = ({ navigation }) => {
           <Image
             source={icons.moreCircle}
             resizeMode='contain'
-            style={[styles.moreIcon, { 
+            style={[styles.moreIcon, {
               tintColor: dark ? COLORS.white : COLORS.greyscale900
             }]}
           />
@@ -91,18 +91,18 @@ const Search = ({ navigation }) => {
 
 
     const handleSearch = () => {
-        const services = allServices.filter((service) =>
-          service.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        setFilteredServices(services);
-        setResultsCount(services.length);
+      const services = allServices.filter((service) =>
+        service.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredServices(services);
+      setResultsCount(services.length);
     };
 
     return (
       <View>
         {/* Search Bar */}
-        <View style={[styles.searchContainer, { 
-           borderColor: dark ? COLORS.grayscale700 : "#E5E7EB"
+        <View style={[styles.searchContainer, {
+          borderColor: dark ? COLORS.grayscale700 : "#E5E7EB"
         }]}>
           <TouchableOpacity>
             <Image
@@ -112,8 +112,8 @@ const Search = ({ navigation }) => {
             />
           </TouchableOpacity>
           <TextInput
-            style={[styles.searchInput, { 
-              color: dark? COLORS.secondaryWhite : COLORS.greyscale900
+            style={[styles.searchInput, {
+              color: dark ? COLORS.secondaryWhite : COLORS.greyscale900
             }]}
             value={searchQuery}
             onChangeText={(text) => setSearchQuery(text)}
@@ -121,16 +121,16 @@ const Search = ({ navigation }) => {
             placeholderTextColor="#BABABA"
           />
           <TouchableOpacity
-           onPress={() => refRBSheet.current.open()}>
+            onPress={() => refRBSheet.current.open()}>
             <Image
               source={icons.filter}
               resizeMode='contain'
-              style={[styles.filterIcon, { 
-                tintColor: dark? COLORS.white : COLORS.greyscale900
+              style={[styles.filterIcon, {
+                tintColor: dark ? COLORS.white : COLORS.greyscale900
               }]}
             />
           </TouchableOpacity>
-      </View>
+        </View>
 
         {/* Results container  */}
         <View>
@@ -138,8 +138,8 @@ const Search = ({ navigation }) => {
             searchQuery && (
               <View style={styles.resultContainer}>
                 <View style={styles.resultLeftView}>
-                  <Text style={[styles.subtitle, { 
-                    color: dark? COLORS.white : COLORS.greyscale900
+                  <Text style={[styles.subtitle, {
+                    color: dark ? COLORS.white : COLORS.greyscale900
                   }]}>Results for "</Text>
                   <Text style={styles.subtitle}>{searchQuery}</Text>
                   <Text style={styles.subtitle}>"</Text>
@@ -283,12 +283,12 @@ const Search = ({ navigation }) => {
             }
           }}
         >
-          <Text style={[styles.bottomTitle, { 
+          <Text style={[styles.bottomTitle, {
             color: dark ? COLORS.white : COLORS.greyscale900
           }]}>Filter</Text>
           <View style={styles.separateLine} />
           <View style={{ width: SIZES.width - 32 }}>
-            <Text style={[styles.sheetTitle, { 
+            <Text style={[styles.sheetTitle, {
               color: dark ? COLORS.white : COLORS.greyscale900
             }]}>Category</Text>
             <FlatList
@@ -298,7 +298,7 @@ const Search = ({ navigation }) => {
               horizontal
               renderItem={renderCategoryItem}
             />
-            <Text style={[styles.sheetTitle, { 
+            <Text style={[styles.sheetTitle, {
               color: dark ? COLORS.white : COLORS.greyscale900
             }]}>Filter</Text>
             <MultiSlider
@@ -317,7 +317,7 @@ const Search = ({ navigation }) => {
               containerStyle={{ height: 40 }}
               trackStyle={{ height: 3 }}
             />
-            <Text style={[styles.sheetTitle, { 
+            <Text style={[styles.sheetTitle, {
               color: dark ? COLORS.white : COLORS.greyscale900
             }]}>Rating</Text>
             <FlatList

@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback, Modal } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { COLORS, SIZES, illustrations } from '../constants';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as LocalAuthentication from 'expo-local-authentication';
+import ReactNativeBiometrics from 'react-native-biometrics';
+import { COLORS, SIZES, illustrations } from '../constants';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
@@ -18,49 +18,46 @@ const Fingerprint = ({ navigation }) => {
   }, []);
 
   const checkDeviceForFingerprint = async () => {
-    const isCompatible = await LocalAuthentication.hasHardwareAsync();
-    setIsSupported(isCompatible);
+    const rnBiometrics = new ReactNativeBiometrics();
+    const { available } = await rnBiometrics.isSensorAvailable();
+    setIsSupported(available);
 
-    if (isCompatible) {
+    if (available) {
       authenticateUser();
     }
   };
 
   const authenticateUser = async () => {
-    const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Authenticate with your fingerprint',
-    });
+    const rnBiometrics = new ReactNativeBiometrics();
+    const { success } = await rnBiometrics.simplePrompt({ promptMessage: 'Authenticate with your fingerprint' });
 
-    if (result.success) {
+    if (success) {
       setIsAuthenticated(true);
-      // Handle successful authentication here
+      console.log('Authentication successful');
     } else {
-      // Handle authentication failure
       console.log('Authentication failed');
     }
   };
 
-  // Render modal
   const renderModal = () => {
     return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}>
-        <TouchableWithoutFeedback
-          onPress={() => setModalVisible(false)}>
-          <View style={[styles.modalContainer]}>
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
             <View style={[styles.modalSubContainer, {
               backgroundColor: dark ? COLORS.dark2 : COLORS.secondaryWhite
             }]}>
               <Image
                 source={illustrations.passwordSuccess}
                 resizeMode='contain'
-                style={styles.modalIllustration}/>
+                style={styles.modalIllustration}
+              />
               <Text style={styles.modalTitle}>Congratulations!</Text>
               <Text style={[styles.modalSubtitle, {
                 color: dark ? COLORS.grayTie : COLORS.greyscale900
-              }]}>Your account is ready to use. You will be redirected to the Home page in a few seconds..</Text>
+              }]}>
+                Your account is ready to use. You will be redirected to the Home page in a few seconds..
+              </Text>
               <Button
                 title="Continue"
                 filled
@@ -68,38 +65,31 @@ const Fingerprint = ({ navigation }) => {
                   setModalVisible(false)
                   navigation.navigate("Login")
                 }}
-                style={{
-                  width: "100%",
-                  marginTop: 12
-                }}
+                style={{ width: "100%", marginTop: 12 }}
               />
             </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-    )
+    );
   };
 
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <Header title="Set Your Fingerprint" />
-        <ScrollView
-          contentContainerStyle={{ alignItems: 'center' }}
-          showsVerticalScrollIndicator={false}>
-          <Text style={[styles.title, {
-            color: dark ? COLORS.white : COLORS.greyscale900
-          }]}>Add a fingerprint to make your account
-            more secure.</Text>
+        <ScrollView contentContainerStyle={{ alignItems: 'center' }} showsVerticalScrollIndicator={false}>
+          <Text style={[styles.title, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+            Add a fingerprint to make your account more secure.
+          </Text>
           <Image
             source={illustrations.fingerprint}
             resizeMode='contain'
             style={styles.fingerprint}
           />
-          <Text style={[styles.title, {
-            color: dark ? COLORS.white : COLORS.greyscale900
-          }]}>Please put your finger on the fingerprint
-            scanner to get started.</Text>
+          <Text style={[styles.title, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+            Please put your finger on the fingerprint scanner to get started.
+          </Text>
         </ScrollView>
       </View>
       <View style={styles.bottomContainer}>
@@ -123,7 +113,7 @@ const Fingerprint = ({ navigation }) => {
       </View>
       {renderModal()}
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -157,12 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: SIZES.width - 32,
     alignItems: "center"
-  },
-  skipButton: {
-    width: (SIZES.width - 32) / 2 - 8,
-    borderRadius: 32,
-    backgroundColor: "#F5E7FF",
-    borderColor: "#F5E7FF"
   },
   continueButton: {
     width: (SIZES.width - 32) / 2 - 8,
@@ -206,4 +190,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Fingerprint
+export default Fingerprint;

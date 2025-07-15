@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList } 
 import React, { useRef, useEffect, useState } from 'react';
 import { COLORS, FONTS, SIZES, icons } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import RBSheet from "react-native-raw-bottom-sheet";
 import LocationItem from '../components/LocationItem';
@@ -48,22 +49,22 @@ const YourAddress = ({ navigation }) => {
             <View style={styles.headerContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={[styles.headerIconContainer, { 
-                        borderColor: dark? COLORS.dark1 : COLORS.grayscale200
+                    style={[styles.headerIconContainer, {
+                        borderColor: dark ? COLORS.dark1 : COLORS.grayscale200
                     }]}>
                     <Image
                         source={icons.arrowBack}
                         resizeMode='contain'
-                        style={[styles.arrowBackIcon, { 
-                            tintColor: dark? COLORS.white : COLORS.greyscale900
+                        style={[styles.arrowBackIcon, {
+                            tintColor: dark ? COLORS.white : COLORS.greyscale900
                         }]}
                     />
                 </TouchableOpacity>
-                <Text style={[styles.headerTitle, { 
-                    color: dark? COLORS.white : COLORS.greyscale900
+                <Text style={[styles.headerTitle, {
+                    color: dark ? COLORS.white : COLORS.greyscale900
                 }]}>Your Address</Text>
                 <TouchableOpacity>
-                    <Feather name="more-vertical" size={24} color={dark? COLORS.white : COLORS.greyscale900} />
+                    <Feather name="more-vertical" size={24} color={dark ? COLORS.white : COLORS.greyscale900} />
                 </TouchableOpacity>
             </View>
         );
@@ -141,11 +142,11 @@ const YourAddress = ({ navigation }) => {
                     flexDirection: 'column',
                     marginVertical: 22
                 }}>
-                    <View style={[styles.searchBarContainer, { 
+                    <View style={[styles.searchBarContainer, {
                         backgroundColor: dark ? COLORS.dark2 : "#F9F9F9",
                     }]}>
                         <TouchableOpacity>
-                            <Feather name="search" size={24} color={dark ? COLORS.grayscale400 : COLORS.greyscale900 } />
+                            <Feather name="search" size={24} color={dark ? COLORS.grayscale400 : COLORS.greyscale900} />
                         </TouchableOpacity>
                         <TextInput
                             placeholder='Search Location'
@@ -211,7 +212,7 @@ const YourAddress = ({ navigation }) => {
                     marginVertical: 22,
                     alignItems: "center"
                 }}>
-                    <View style={[styles.boxContainer, { 
+                    <View style={[styles.boxContainer, {
                         backgroundColor: dark ? COLORS.dark1 : "#F2F4F9",
                     }]}>
                         <Image
@@ -220,15 +221,15 @@ const YourAddress = ({ navigation }) => {
                             style={styles.pinIcon}
                         />
                     </View>
-                    <Text style={[styles.locationName, { 
+                    <Text style={[styles.locationName, {
                         color: dark ? COLORS.white : COLORS.greyscale900
                     }]}>New Montgomery</Text>
                     <Text style={styles.locationAddress}>4517 Washington Ave. Manchester, Kentucky 39495</Text>
                     <View style={styles.viewLine}>
                         <View style={[styles.viewTime, { marginRight: 36 }]}>
                             <MaterialCommunityIcons name="clock" size={20} color={COLORS.primary} />
-                            <Text style={[styles.timeline, { 
-                                color: dark? COLORS.white : COLORS.greyscale900
+                            <Text style={[styles.timeline, {
+                                color: dark ? COLORS.white : COLORS.greyscale900
                             }]}>09:00 AM - 05:00PM</Text>
                         </View>
                         <View style={styles.viewTime}>
@@ -237,8 +238,8 @@ const YourAddress = ({ navigation }) => {
                                 resizeMode='contain'
                                 style={styles.routingIcon}
                             />
-                            <Text style={[styles.timeline, { 
-                                 color: dark? COLORS.white : COLORS.greyscale900
+                            <Text style={[styles.timeline, {
+                                color: dark ? COLORS.white : COLORS.greyscale900
                             }]}>4.5 KM from you</Text>
                         </View>
                     </View>
