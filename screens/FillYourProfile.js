@@ -44,11 +44,9 @@ const FillYourProfile = ({ navigation }) => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const { colors, dark } = useTheme();
 
-  const today = new Date();
-  const startDate = getFormatedDate(
-    new Date(today.setDate(today.getDate() + 1)),
-    "YYYY/MM/DD"
-  );
+
+  const startDate = "1900/01/01";
+
 
   const [startedDate, setStartedDate] = useState("12/12/2023");
 

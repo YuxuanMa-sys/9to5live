@@ -3,6 +3,7 @@ import AppNavigation from './navigations/AppNavigation'
 import { LogBox } from 'react-native'
 import { ThemeProvider } from './theme/ThemeProvider'
 
+
 // Ignore all log notifications
 LogBox.ignoreAllLogs();
 

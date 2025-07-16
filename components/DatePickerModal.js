@@ -29,6 +29,8 @@ const DatePickerModal = ({
         <View style={styles.modalView}>
           <DatePicker
             mode="calendar"
+            isGregorian={true}
+            locale="en"
             minimumDate={startDate}
             selected={selectedStartDate}
             onDateChange={handleDateChange}
