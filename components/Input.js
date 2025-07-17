@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
     fontFamily: 'regular',
     fontSize: 14,
     paddingTop: 0,
+    paddingVertical: 0, // Ensure no extra vertical padding
+    textAlignVertical: 'center', // Center text vertically
   },
   errorContainer: {
     marginVertical: 4,

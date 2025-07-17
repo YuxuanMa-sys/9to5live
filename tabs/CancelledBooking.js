@@ -1,9 +1,8 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
-import { SIZES, COLORS } from '../constants';
+import { SIZES, COLORS, icons } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
 import { useNavigation } from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { cancelledBookings } from '../data';
 
 const CancelledBooking = () => {
@@ -32,7 +31,11 @@ const CancelledBooking = () => {
                   style={styles.serviceImage}
                 />
                 <View style={styles.reviewContainer}>
-                  <FontAwesome name="star" size={12} color="orange" />
+                  <Image
+                    source={icons.star}
+                    resizeMode='contain'
+                    style={{ width: 12, height: 12, tintColor: "orange" }}
+                  />
                   <Text style={styles.rating}>{item.rating}</Text>
                 </View>
               </View>

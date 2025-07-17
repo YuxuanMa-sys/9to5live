@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { upcomingBookings } from '../data';
-import { SIZES, COLORS } from '../constants';
+import { SIZES, COLORS, icons } from '../constants';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { useTheme } from '../theme/ThemeProvider';
 import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 const UpcomingBooking = () => {
@@ -35,7 +34,11 @@ const UpcomingBooking = () => {
                   style={styles.serviceImage}
                 />
                 <View style={styles.reviewContainer}>
-                  <FontAwesome name="star" size={12} color="orange" />
+                  <Image
+                    source={icons.star}
+                    resizeMode='contain'
+                    style={{ width: 12, height: 12, tintColor: "orange" }}
+                  />
                   <Text style={styles.rating}>{item.rating}</Text>
                 </View>
               </View>

@@ -14,7 +14,7 @@ const BottomTabNavigation = () => {
         width: 60,
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: Platform.OS === 'ios' ? 18 : 6,
+        paddingTop: Platform.OS === 'ios' ? 18 : 18,
     };
 
     return (

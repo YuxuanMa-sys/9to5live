@@ -98,18 +98,14 @@ const Signup = ({ navigation }) => {
             secureTextEntry={true}
           />
           <View style={styles.checkBoxContainer}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox
                 style={styles.checkbox}
                 value={isChecked}
                 onValueChange={setChecked}
                 tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
               />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.privacy, {
-                  color: dark ? COLORS.white : COLORS.black
-                }]}>By continuing you accept our Privacy Policy</Text>
-              </View>
+              <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black, marginLeft: 8 }]}>By continuing you accept our Privacy Policy</Text>
             </View>
           </View>
           <Button

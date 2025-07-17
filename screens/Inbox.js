@@ -4,7 +4,6 @@ import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Calls, Chats } from '../tabs';
-import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '../theme/ThemeProvider';
 
 const renderScene = SceneMap({
@@ -95,7 +94,11 @@ const Inbox = () => {
           renderTabBar={renderTabBar} />
         {/* Implementing adding post */}
         <TouchableOpacity style={styles.addPostBtn}>
-          <Feather name="plus" size={24} color={COLORS.white} />
+          <Image
+            source={icons.plus}
+            resizeMode='contain'
+            style={{ width: 24, height: 24, tintColor: COLORS.white }}
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

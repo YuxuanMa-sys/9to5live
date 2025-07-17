@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS, SIZES, icons } from '../constants';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '../theme/ThemeProvider';
 
 const ServiceCard = ({
@@ -57,7 +56,11 @@ const ServiceCard = ({
                     }
                 </View>
                 <View style={styles.ratingContainer}>
-                    <FontAwesome name="star-half-empty" size={16} color="orange" />
+                    <Image
+                        source={icons.star}
+                        resizeMode='contain'
+                        style={{ width: 16, height: 16, tintColor: "orange" }}
+                    />
                     <Text style={[styles.rating, { color: dark ? COLORS.greyscale300 : COLORS.grayscale700 }]}> {" "}{rating}</Text>
                     <Text style={[styles.numReviews, { color: dark ? COLORS.greyscale300 : COLORS.grayscale700 }]}> |  {numReviews} reviews</Text>
                 </View>

@@ -3,7 +3,6 @@ import React, { useState, useRef } from 'react';
 import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { launchImagePicker } from '../utils/ImagePickerHelper';
 import SettingsItem from '../components/SettingsItem';
 import { useTheme } from '../theme/ThemeProvider';
@@ -68,7 +67,11 @@ const Profile = ({ navigation }) => {
           <TouchableOpacity
             onPress={pickImage}
             style={styles.picContainer}>
-            <MaterialIcons name="edit" size={16} color={COLORS.white} />
+            <Image
+              source={icons.editPencil}
+              resizeMode='contain'
+              style={{ width: 16, height: 16, tintColor: COLORS.white }}
+            />
           </TouchableOpacity>
         </View>
         <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Nathalie Erneson</Text>

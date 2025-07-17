@@ -98,18 +98,14 @@ const Login = ({ navigation }) => {
             secureTextEntry={true}
           />
           <View style={styles.checkBoxContainer}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox
                 value={isChecked}
                 onValueChange={setChecked}
                 tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
                 style={styles.checkbox}
               />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.privacy, {
-                  color: dark ? COLORS.white : COLORS.black
-                }]}>Remember me</Text>
-              </View>
+              <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black, marginLeft: 8 }]}>Remember me</Text>
             </View>
           </View>
           <Button
