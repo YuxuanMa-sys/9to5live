@@ -20,6 +20,8 @@ const DatePickerView = ({
         <View style={styles.modalView}>
           <DatePicker
             mode="calendar"
+            isGregorian={true}
+            locale="en"
             minimumDate={startDate}
             style={{
               width: SIZES.width - 32,
@@ -36,7 +38,14 @@ const DatePickerView = ({
               selectedTextColor: COLORS.primary,
               mainColor: COLORS.white,
               textSecondaryColor: '#FFFFFF',
-              borderColor: COLORS.primary
+              borderColor: COLORS.primary,
+              defaultFont: 'System',
+              headerFont: 'System',
+              textFontSize: 16,
+              textHeaderFontSize: 18,
+              monthFormat: 'MMMM yyyy',
+              dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+              monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             }}/>
         </View>
       </View>

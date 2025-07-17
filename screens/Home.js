@@ -155,12 +155,26 @@ const Home = ({ navigation }) => {
    */
   const renderCategories = () => {
 
+    const handleCategoryPress = (category) => {
+      navigation.navigate("CategoryServices", {
+        categoryName: category.name,
+        categoryId: category.id
+      });
+    };
+
+    const handleSeeAllPress = () => {
+      navigation.navigate("CategoryServices", {
+        categoryName: "All Services",
+        categoryId: "1" // Show all services
+      });
+    };
+
     return (
       <View>
         <SubHeaderItem
           title="Categories"
           navTitle="See all"
-          onPress={() => console.log("See all services")}
+          onPress={handleSeeAllPress}
         />
         <FlatList
           data={categories}
@@ -173,6 +187,7 @@ const Home = ({ navigation }) => {
               icon={item.icon}
               iconColor={item.iconColor}
               backgroundColor={item.backgroundColor}
+              onPress={() => handleCategoryPress(item)}
             />
           )}
         />

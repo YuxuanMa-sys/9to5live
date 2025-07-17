@@ -32,12 +32,16 @@ const MyBooking = ({ navigation }) => {
       style={{
         backgroundColor: colors.background,
       }}
+      activeColor={COLORS.primary}
+      inactiveColor={dark ? COLORS.white : COLORS.greyscale900}
       renderLabel={({ route, focused }) => (
-        <Text style={[{
-          color: focused ? COLORS.primary : "gray",
+        <Text style={{
+          color: focused
+            ? COLORS.primary
+            : (dark ? COLORS.white : COLORS.greyscale900),
           fontSize: 16,
-          fontFamily: "semiBold"
-        }]}>
+          fontWeight: focused ? '600' : '400',
+        }}>
           {route.title}
         </Text>
       )}

@@ -226,12 +226,14 @@ const HelpCenter = ({ navigation }) => {
             style={{
                 backgroundColor: dark ? COLORS.dark1 : COLORS.white,
             }}
-            renderLabel={({ route, focused, color }) => (
-                <Text style={[{
-                    color: focused ? COLORS.primary : 'gray',
+            activeColor={COLORS.primary}
+            inactiveColor={dark ? COLORS.white : COLORS.greyscale900}
+            renderLabel={({ route, focused }) => (
+                <Text style={{
+                    color: focused ? COLORS.primary : (dark ? COLORS.white : COLORS.greyscale900),
                     fontSize: 16,
-                    fontFamily: "bold"
-                }]}>
+                    fontWeight: focused ? '600' : '400'
+                }}>
                     {route.title}
                 </Text>
             )}

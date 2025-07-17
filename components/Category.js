@@ -3,7 +3,7 @@ import React from 'react';
 import { COLORS, SIZES } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
 
-const Category = ({   name, icon, iconColor, backgroundColor }) => {
+const Category = ({ name, icon, iconColor, backgroundColor, onPress }) => {
     const { dark } = useTheme();
 
   return (
@@ -11,7 +11,8 @@ const Category = ({   name, icon, iconColor, backgroundColor }) => {
         <TouchableOpacity 
            style={[styles.iconContainer, {
             backgroundColor: backgroundColor
-           }]}>
+           }]}
+           onPress={onPress}>
             <Image
                 source={icon}
                 resizeMode='contain'
