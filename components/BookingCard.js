@@ -58,9 +58,15 @@ const BookingCard = ({ booking, onPress }) => {
       {/* Left: Booking Details */}
       <View style={styles.leftSection}>
         {/* Status Badge */}
-        <View style={styles.confirmedBadge}>
-          <Text style={styles.confirmedText}>Confirmed</Text>
-        </View>
+        {booking.status && booking.status.toLowerCase() === 'cancelled' ? (
+          <View style={styles.cancelledBadge}>
+            <Text style={styles.cancelledText}>Cancelled</Text>
+          </View>
+        ) : (
+          <View style={styles.confirmedBadge}>
+            <Text style={styles.confirmedText}>Confirmed</Text>
+          </View>
+        )}
         {/* Service Name */}
         <Text style={[styles.serviceName, { color: dark ? COLORS.white : COLORS.greyscale900 }]}> 
           {booking.service?.name || 'Haircut'}
@@ -131,6 +137,23 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontWeight: '700',
     letterSpacing: 0.5,
+  },
+  cancelledBadge: {
+    backgroundColor: COLORS.grayscale200, // lighter gray
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    borderRadius: 16,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+    marginTop: 2,
+    marginLeft: 2,
+  },
+  cancelledText: {
+    ...FONTS.body4,
+    color: COLORS.greyscale700, // medium gray text
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    fontFamily: 'bold',
   },
   serviceName: {
     ...FONTS.h3,
