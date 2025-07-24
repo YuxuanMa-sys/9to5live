@@ -264,7 +264,7 @@ const Home = ({ navigation }) => {
                 oldPrice={item.oldPrice}
                 rating={item.rating}
                 numReviews={item.numReviews}
-                onPress={() => navigation.navigate("ServiceDetails")}
+                onPress={() => navigation.navigate("ProviderDetails")}
                 categoryId={item.categoryId}
               />
             )

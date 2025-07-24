@@ -52,6 +52,7 @@ import CancelBookingPaymentMethods from "./CancelBookingPaymentMethods";
 import MyBookings from "./MyBookings";
 import ReviewSummary from "./ReviewSummary";
 import CategoryServices from "./CategoryServices";
+import ProviderDetails from "./ProviderDetails";
 
 export {
     Onboarding1,
@@ -107,5 +108,6 @@ export {
     CancelBookingPaymentMethods,
     MyBookings,
     ReviewSummary,
-    CategoryServices
+    CategoryServices,
+    ProviderDetails
 }
