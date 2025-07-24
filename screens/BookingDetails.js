@@ -1,216 +1,167 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS, SIZES } from '../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../components/Header';
-import { ScrollView } from 'react-native-virtualized-view';
-import DatePickerView from '../components/DatePickerView';
-import { getFormatedDate } from "react-native-modern-datepicker";
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { hoursData } from '../data';
-import Button from '../components/Button';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
+import { COLORS, FONTS, SIZES, icons, images } from '../constants';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const BookingDetails = ({ navigation }) => {
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [selectedHour, setSelectedHour] = useState(null);
-  const today = new Date();
-  const startDate = getFormatedDate(
-    new Date(today.setDate(today.getDate() + 1)),
-    "YYYY/MM/DD"
-  );
-  const [startedDate, setStartedDate] = useState("12/12/2023");
-  const { colors, dark } = useTheme();
+const BookingDetails = () => {
+  const { dark } = useTheme();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { booking } = route.params || {};
 
-  const [count, setCount] = useState(2);
-
-  const handleIncrease = () => {
-    setCount(count + 1);
-  };
-
-  const handleDecrease = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
-
-  // Function to handle hour selection
-  const handleHourSelect = (hour) => {
-    setSelectedHour(hour);
-  };
-
-  // Render each hour as a selectable button
-  const renderHourItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        style={[
-          styles.hourButton,
-          selectedHour === item.id && styles.selectedHourButton,
-        ]}
-        onPress={() => handleHourSelect(item.id)}
-      >
-        <Text style={[styles.hourText,
-        selectedHour === item.id && styles.selectedHourText]}>{item.hour}</Text>
-      </TouchableOpacity>
-    );
-  };
-
+  // Placeholder map image (replace with real map if needed)
+  const mapImage = images?.map || images?.background || null;
 
   return (
-    <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <Header title="Booking Details" />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={[styles.title, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Select Date</Text>
-          <DatePickerView
-            open={openStartDatePicker}
-            startDate={startDate}
-            selectedDate={startedDate}
-            onClose={() => setOpenStartDatePicker(false)}
-            onChangeStartDate={(date) => setStartedDate(date)}
-          />
-          <View style={styles.ourContainer}>
-            <View>
-              <Text style={[styles.hourTitle, {
-                color: dark ? COLORS.white : COLORS.greyscale900
-              }]}>Working Hours</Text>
-              <Text style={[styles.hourSubtitle, {
-                color: dark ? COLORS.grayscale200 : COLORS.grayscale700
-              }]}>Cost increase after 2 hrs of work</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}> 
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={icons.arrowLeft} style={[styles.headerIcon, { tintColor: dark ? COLORS.white : COLORS.greyscale900 }]} />
+          </TouchableOpacity>
+          <Text style={[styles.headerTitle, { color: dark ? COLORS.white : COLORS.greyscale900 }]}> 
+            {booking.selectedTime}  B7 {booking.selectedDate}
+          </Text>
+          <TouchableOpacity>
+            <Image source={icons.calendar} style={[styles.headerIcon, { tintColor: dark ? COLORS.white : COLORS.greyscale900 }]} />
+          </TouchableOpacity>
+        </View>
+        {/* Status Badge */}
+        <View style={styles.statusBadge}><Text style={styles.statusText}>Confirmed</Text></View>
+        {/* Map Section */}
+        <View style={styles.mapSection}>
+          <Image source={mapImage} style={styles.mapImage} resizeMode="cover" />
+          <View style={[styles.providerCard, { backgroundColor: dark ? COLORS.dark2 : COLORS.white }]}> 
+            <Image source={booking.provider?.image || images.avatar} style={styles.providerAvatar} />
+            <View style={styles.providerInfo}>
+              <Text style={[styles.providerName, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>{booking.provider?.name || 'Urbana Barber'}</Text>
+              <Text style={[styles.providerAddress, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}>{booking.provider?.address || '2707 Milford Drive, Urbana, 61802'}</Text>
             </View>
-            <View style={styles.viewContainer}>
-              <TouchableOpacity style={styles.iconContainer} onPress={handleDecrease}>
-                <AntDesign name="minus" size={16} color={dark ? COLORS.white : "black"} />
-              </TouchableOpacity>
-              <Text style={styles.count}>{count}</Text>
-              <TouchableOpacity style={styles.iconContainer} onPress={handleIncrease}>
-                <AntDesign name="plus" size={16} color={dark ? COLORS.white : "black"} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.mapNavBtn}>
+              <Image source={icons.location} style={styles.mapNavIcon} />
+            </TouchableOpacity>
           </View>
-          <Text style={[styles.title, {
-            color: dark ? COLORS.white : COLORS.greyscale900
-          }]}>Choose Start Time</Text>
-          <View style={{ marginVertical: 12 }}>
-            <FlatList
-              data={hoursData}
-              renderItem={renderHourItem}
-              keyExtractor={(item) => item.id.toString()}
-              horizontal={true}
-              showsVerticalScrollIndicator={false}
-            />
+        </View>
+        {/* Service Info */}
+        <View style={styles.serviceSection}>
+          <View style={styles.serviceRow}>
+            <Text style={[styles.serviceName, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>{booking.service?.name || 'Haircut'}</Text>
+            <Text style={[styles.servicePrice, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>{booking.service?.price || '$30.00'}</Text>
           </View>
-        </ScrollView>
-      </View>
-      <View style={[styles.bottomContainer, {
-        backgroundColor: colors.background
-      }]}>
-        <Button
-          title="Continue - $125"
-          filled
-          style={styles.button}
-          onPress={() => navigation.navigate("YourAddress")}
-        />
+          <View style={styles.staffRow}>
+            <Image source={icons.people} style={styles.staffIcon} />
+            <Text style={[styles.staffName, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}>{booking.provider?.staff || 'Vallen Thorpe'}</Text>
+          </View>
+          <Text style={[styles.serviceTime, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}> 
+            {booking.selectedTime} - {/* End time calculation */}
+            {(() => {
+              if (!booking.selectedTime || !booking.service?.duration) return '';
+              const [h, m] = booking.selectedTime.split(':').map(Number);
+              const mins = parseInt(booking.service.duration) || 45;
+              const end = new Date(2000, 0, 1, h, m + mins);
+              return `${end.getHours().toString().padStart(2, '0')}:${end.getMinutes().toString().padStart(2, '0')}`;
+            })()}
+          </Text>
+        </View>
+      </ScrollView>
+      {/* Action Buttons */}
+      <View style={styles.actionRow}>
+        <TouchableOpacity style={[styles.cancelBtn, { borderColor: COLORS.error }]}>
+          <Text style={[styles.cancelBtnText, { color: COLORS.error }]}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.changeBtn}>
+          <Text style={[styles.changeBtnText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Change</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
-  area: {
-    flex: 1,
-    backgroundColor: COLORS.white
+  container: { flex: 1 },
+  scrollContent: { paddingBottom: 32 },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    marginBottom: 8,
   },
-  container: {
+  headerIcon: { width: 28, height: 28 },
+  headerTitle: { ...FONTS.h3, fontWeight: '600' },
+  statusBadge: {
+    alignSelf: 'center',
+    backgroundColor: COLORS.success + '20',
+    borderRadius: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 4,
+    marginBottom: 10,
+  },
+  statusText: { ...FONTS.body3, color: COLORS.success, fontWeight: '700' },
+  mapSection: { marginHorizontal: 0, marginBottom: 18 },
+  mapImage: { width: '100%', height: 120, borderRadius: 12 },
+  providerCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 18,
+    right: 18,
+    top: 80,
+    borderRadius: 16,
+    padding: 12,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  providerAvatar: { width: 44, height: 44, borderRadius: 22, marginRight: 12 },
+  providerInfo: { flex: 1 },
+  providerName: { ...FONTS.h4, fontWeight: '700' },
+  providerAddress: { ...FONTS.body4, marginTop: 2 },
+  mapNavBtn: { padding: 8 },
+  mapNavIcon: { width: 22, height: 22, tintColor: COLORS.primary },
+  serviceSection: { marginTop: 32, paddingHorizontal: 18 },
+  serviceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
+  serviceName: { ...FONTS.h4, fontWeight: '700' },
+  servicePrice: { ...FONTS.h4, fontWeight: '700' },
+  staffRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 2 },
+  staffIcon: { width: 18, height: 18, marginRight: 6, tintColor: COLORS.grayscale500 },
+  staffName: { ...FONTS.body4 },
+  serviceTime: { ...FONTS.body4, marginTop: 2 },
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+    paddingBottom: 18,
+    paddingTop: 8,
+    backgroundColor: 'transparent',
+  },
+  cancelBtn: {
     flex: 1,
+    borderWidth: 1.5,
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginRight: 10,
+    alignItems: 'center',
     backgroundColor: COLORS.white,
-    padding: 16
   },
-  title: {
-    fontSize: 16,
-    fontFamily: "bold",
-    color: COLORS.black,
-    marginTop: 12
+  cancelBtnText: { ...FONTS.h4, fontWeight: '600' },
+  changeBtn: {
+    flex: 1,
+    borderWidth: 1.5,
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginLeft: 10,
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.greyscale200,
   },
-  ourContainer: {
-    width: SIZES.width - 32,
-    height: 72,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  hourTitle: {
-    fontSize: 18,
-    fontFamily: "semiBold",
-    color: COLORS.black,
-    marginBottom: 12
-  },
-  hourSubtitle: {
-    fontSize: 14,
-    fontFamily: "regular",
-    color: COLORS.black,
-  },
-  viewContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: 120,
-    justifyContent: "space-between"
-  },
-  iconContainer: {
-    height: 38,
-    width: 38,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 999,
-    backgroundColor: COLORS.tansparentPrimary
-  },
-  count: {
-    fontSize: 16,
-    fontFamily: "regular",
-    color: COLORS.black
-  },
-  hourButton: {
-    padding: 10,
-    borderRadius: 32,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginHorizontal: 5,
-    borderColor: COLORS.primary,
-    borderWidth: 1.4
-  },
-  selectedHourButton: {
-    backgroundColor: COLORS.primary,
-  },
-  selectedHourText: {
-    fontSize: 12,
-    fontFamily: 'medium',
-    color: COLORS.white
-  },
-  hourText: {
-    fontSize: 12,
-    fontFamily: 'medium',
-    color: COLORS.primary
-  },
-  bottomContainer: {
-    position: "absolute",
-    bottom: 22,
-    left: 0,
-    right: 0,
-    width: "100%",
-    height: 54,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    alignItems: "center",
-    backgroundColor: COLORS.white
-  },
-  button: {
-    width: SIZES.width - 32,
-    height: 54,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: COLORS.primary
-  }
-})
+  changeBtnText: { ...FONTS.h4, fontWeight: '600' },
+});
 
-export default BookingDetails
+export default BookingDetails;

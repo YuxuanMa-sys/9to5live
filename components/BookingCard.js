@@ -53,11 +53,11 @@ const BookingCard = ({ booking, onPress }) => {
     <TouchableOpacity 
       style={[styles.card, { backgroundColor: dark ? COLORS.dark2 : COLORS.white }]}
       onPress={onPress}
-      activeOpacity={0.9}
+      activeOpacity={0.92}
     >
-      {/* Left Section - Service and Provider Details */}
+      {/* Left: Booking Details */}
       <View style={styles.leftSection}>
-        {/* Confirmation Status Badge */}
+        {/* Status Badge */}
         <View style={styles.confirmedBadge}>
           <Text style={styles.confirmedText}>Confirmed</Text>
         </View>
@@ -69,8 +69,8 @@ const BookingCard = ({ booking, onPress }) => {
         <Text style={[styles.staffName, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}> 
           with {booking.provider?.staff || 'Vallen Thorpe'}
         </Text>
-        {/* Provider Information */}
-        <View style={styles.providerContainer}>
+        {/* Provider Row */}
+        <View style={styles.providerRow}>
           <Image 
             source={icons.people} 
             style={styles.providerIcon}
@@ -81,7 +81,7 @@ const BookingCard = ({ booking, onPress }) => {
           </Text>
         </View>
       </View>
-      {/* Date Section: Month, Day, Time */}
+      {/* Right: Date Section */}
       <View style={styles.dateSection}>
         <Text style={styles.dateMonth}>
           {getMonthAbbreviation(booking.selectedDate).toUpperCase()}
@@ -101,33 +101,33 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SIZES.padding * 1.5,
-    borderRadius: SIZES.radius * 2,
-    marginBottom: SIZES.padding * 1.2,
+    padding: SIZES.padding * 1.1,
+    borderRadius: SIZES.radius * 0.8,
+    marginBottom: SIZES.padding * 1.5,
     shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.10,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowRadius: 12,
+    elevation: 6,
     borderWidth: 1,
     borderColor: COLORS.greyscale200,
-    minHeight: 110,
+    minHeight: 80,
   },
   leftSection: {
     flex: 1,
-    paddingRight: SIZES.padding,
+    paddingRight: SIZES.padding * 1.2,
     justifyContent: 'center',
   },
   confirmedBadge: {
     backgroundColor: COLORS.success,
-    paddingHorizontal: 12,
-    paddingVertical: 3,
-    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderRadius: 18,
     alignSelf: 'flex-start',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   confirmedText: {
-    ...FONTS.body5,
+    ...FONTS.body4,
     color: COLORS.white,
     fontWeight: '700',
     letterSpacing: 0.5,
@@ -139,57 +139,62 @@ const styles = StyleSheet.create({
   },
   staffName: {
     ...FONTS.body4,
-    marginBottom: 10,
+    marginBottom: 8,
   },
-  providerContainer: {
+  providerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 2,
   },
   providerIcon: {
-    width: 22,
-    height: 22,
-    marginRight: 6,
+    width: 26,
+    height: 26,
+    marginRight: 8,
     tintColor: COLORS.greyscale700,
     opacity: 0.85,
   },
   providerName: {
-    ...FONTS.body3,
+    ...FONTS.body2,
     fontWeight: '600',
   },
   dateSection: {
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 60,
-    marginLeft: 8,
+    minWidth: 80,
+    marginLeft: 16,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
   },
   dateMonth: {
     ...FONTS.body4,
     color: COLORS.greyscale700,
-    fontWeight: '600',
+    fontWeight: '700',
     marginBottom: 0,
-    letterSpacing: 1,
+    letterSpacing: 1.2,
+    fontSize: 13,
   },
   dateDay: {
-    ...FONTS.h1,
-    color: COLORS.greyscale900,
+    ...FONTS.h2,
+    color: COLORS.primary,
     fontWeight: 'bold',
     marginBottom: 0,
-    lineHeight: 44,
+    lineHeight: 32,
+    fontSize: 28,
   },
   timePill: {
     backgroundColor: COLORS.primary + '22',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    marginTop: 4,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    marginTop: 6,
   },
   timePillText: {
     ...FONTS.body3,
     color: COLORS.primary,
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'center',
+    letterSpacing: 0.5,
   },
 });
 

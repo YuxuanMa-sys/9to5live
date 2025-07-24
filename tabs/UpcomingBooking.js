@@ -41,9 +41,7 @@ const UpcomingBooking = () => {
         renderItem={({ item }) => (
           <BookingCard 
             booking={item}
-            onPress={() => {
-              // Navigate to booking details or handle tap
-            }}
+            onPress={() => navigation.navigate('BookingDetails', { booking: item })}
           />
         )}
       />
