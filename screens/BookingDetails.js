@@ -4,6 +4,7 @@ import { useTheme } from '../theme/ThemeProvider';
 import { COLORS, FONTS, SIZES, icons, images } from '../constants';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
+import CancelBookingModal from '../components/CancelBookingModal';
 
 const BookingDetails = () => {
   const { dark } = useTheme();
@@ -11,9 +12,16 @@ const BookingDetails = () => {
   const route = useRoute();
   const { booking } = route.params || {};
 
+  const [showCancelModal, setShowCancelModal] = React.useState(false);
+
   // Fake coordinates for Urbana, IL
   const latitude = booking.provider?.latitude || 40.1106;
   const longitude = booking.provider?.longitude || -88.2073;
+
+  const handleReschedule = () => {
+    setShowCancelModal(false);
+    navigation.navigate('EditAppointment', { booking });
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}> 
@@ -88,13 +96,20 @@ const BookingDetails = () => {
       </ScrollView>
       {/* Action Buttons */}
       <View style={styles.actionRow}>
-        <TouchableOpacity style={[styles.cancelBtn, { borderColor: COLORS.error }]}> 
+        <TouchableOpacity style={[styles.cancelBtn, { borderColor: COLORS.error }]} onPress={() => setShowCancelModal(true)}>
           <Text style={[styles.cancelBtnText, { color: COLORS.error }]}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.changeBtn}>
+        <TouchableOpacity style={styles.changeBtn} onPress={() => navigation.navigate('EditAppointment', { booking })}>
           <Text style={[styles.changeBtnText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Change</Text>
         </TouchableOpacity>
       </View>
+      <CancelBookingModal
+        visible={showCancelModal}
+        onDismiss={() => setShowCancelModal(false)}
+        onReschedule={handleReschedule}
+        onCancel={() => setShowCancelModal(false)}
+        booking={booking}
+      />
     </SafeAreaView>
   );
 };

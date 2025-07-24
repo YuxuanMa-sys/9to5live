@@ -17,7 +17,7 @@ const AppointmentConfirmed = ({ navigation, route }) => {
   const { addBooking } = useBookings();
   
   // Get data from previous screen
-  const { service, provider, selectedDate, selectedTime } = route.params || {};
+  const { service, provider, selectedDate, selectedTime, isEdit } = route.params || {};
   
   // Debug: Log the received data
   console.log('AppointmentConfirmed - Received data:', { selectedDate, selectedTime, service, provider });
@@ -87,8 +87,7 @@ const AppointmentConfirmed = ({ navigation, route }) => {
   };
 
   const handleGotIt = () => {
-    // Navigate back to home or bookings
-    console.log('Ok, Got It pressed - navigating to Home');
+    // Navigate back to main tab (home)
     navigation.reset({
       index: 0,
       routes: [{ name: 'Main' }],
@@ -96,7 +95,7 @@ const AppointmentConfirmed = ({ navigation, route }) => {
   };
 
   React.useEffect(() => {
-    if (service && provider && selectedDate && selectedTime) {
+    if (!isEdit && service && provider && selectedDate && selectedTime) {
       addBooking({
         service,
         provider,

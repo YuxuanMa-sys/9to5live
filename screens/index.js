@@ -56,6 +56,8 @@ import ProviderDetails from "./ProviderDetails";
 import BookAppointment from "./BookAppointment";
 import ReviewConfirm from "./ReviewConfirm";
 import AppointmentConfirmed from "./AppointmentConfirmed";
+import EditAppointment from "./EditAppointment";
+import EditReviewConfirm from "./EditReviewConfirm";
 
 export {
     Onboarding1,
@@ -115,5 +117,7 @@ export {
     ProviderDetails,
     BookAppointment,
     ReviewConfirm,
-    AppointmentConfirmed
+    AppointmentConfirmed,
+    EditAppointment,
+    EditReviewConfirm
 }
