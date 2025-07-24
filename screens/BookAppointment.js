@@ -9,8 +9,6 @@ import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
 
 const BookAppointment = ({ navigation, route }) => {
-  const [selectedDate, setSelectedDate] = useState("2025/08/02");
-  const [selectedTime, setSelectedTime] = useState("09:30");
   const { colors, dark } = useTheme();
   
   // Get service and provider data from navigation params
@@ -35,6 +33,10 @@ const BookAppointment = ({ navigation, route }) => {
     new Date(today.setDate(today.getDate() + 1)),
     "YYYY/MM/DD"
   );
+  
+  // Initialize with consistent default values
+  const [selectedDate, setSelectedDate] = useState(startDate);
+  const [selectedTime, setSelectedTime] = useState("09:30");
 
   // Handle date change
   const handleDateChange = (date) => {

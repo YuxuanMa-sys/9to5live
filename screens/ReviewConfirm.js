@@ -23,7 +23,11 @@ const ReviewConfirm = ({ navigation, route }) => {
     staff: "Vallen Thorpe"
   };
 
-  const appointmentDate = selectedDate || "2025/08/02";
+  // Get current date for consistent defaults
+  const today = new Date();
+  const defaultDate = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0].replace(/-/g, '/');
+  
+  const appointmentDate = selectedDate || defaultDate;
   const appointmentTime = selectedTime || "09:30";
 
   // Format date for display
@@ -161,7 +165,12 @@ const ReviewConfirm = ({ navigation, route }) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
           style={styles.confirmButton}
-          onPress={() => navigation.navigate("BookingStep1")}
+          onPress={() => navigation.navigate("AppointmentConfirmed", {
+            service: serviceData,
+            provider: providerData,
+            selectedDate: formatDate(appointmentDate),
+            selectedTime: appointmentTime
+          })}
         >
           <Text style={styles.confirmButtonText}>Confirm & Book</Text>
         </TouchableOpacity>
