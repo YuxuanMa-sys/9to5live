@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 import { COLORS, FONTS, SIZES, icons } from '../constants';
+import { useBookings } from '../context/BookingContext';
 
 const AppointmentConfirmed = ({ navigation, route }) => {
   const { dark } = useTheme();
+  const { addBooking } = useBookings();
   
   // Get data from previous screen
   const { service, provider, selectedDate, selectedTime } = route.params || {};
@@ -92,6 +94,17 @@ const AppointmentConfirmed = ({ navigation, route }) => {
       routes: [{ name: 'Main' }],
     });
   };
+
+  React.useEffect(() => {
+    if (service && provider && selectedDate && selectedTime) {
+      addBooking({
+        service,
+        provider,
+        selectedDate,
+        selectedTime,
+      });
+    }
+  }, []); // Only run once
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}>

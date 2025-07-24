@@ -171,7 +171,7 @@ const ReviewConfirm = ({ navigation, route }) => {
           onPress={() => navigation.navigate("AppointmentConfirmed", {
             service: serviceData,
             provider: providerData,
-            selectedDate: formatDate(appointmentDate),
+            selectedDate: appointmentDate, // Pass raw date, not formatted
             selectedTime: appointmentTime
           })}
         >

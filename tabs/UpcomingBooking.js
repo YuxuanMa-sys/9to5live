@@ -6,10 +6,13 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { useTheme } from '../theme/ThemeProvider';
 import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
+import { useBookings } from '../context/BookingContext';
+import BookingCard from '../components/BookingCard';
 
 
 const UpcomingBooking = () => {
-  const [bookings, setBookings] = useState(upcomingBookings);
+  const { getUpcomingBookings, updateBooking, clearAllBookings, bookings: allBookings } = useBookings();
+  const bookings = getUpcomingBookings();
   const refRBSheet = useRef();
   const { dark } = useTheme();
   const navigation = useNavigation();
@@ -19,63 +22,29 @@ const UpcomingBooking = () => {
       backgroundColor: dark ? COLORS.dark1 : COLORS.tertiaryWhite
     }]}>
       <FlatList
-        data={bookings} // Use 'bookings' instead of 'upcomingBookings'
+        data={bookings}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyText, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}>No upcoming bookings</Text>
+            <Text style={[styles.emptySubtext, { color: dark ? COLORS.grayscale400 : COLORS.greyscale600 }]}>Book your first appointment to see it here</Text>
+            <TouchableOpacity 
+              style={[styles.clearButton, { backgroundColor: COLORS.primary }]}
+              onPress={clearAllBookings}
+            >
+              <Text style={[styles.clearButtonText, { color: COLORS.white }]}>Clear All Bookings</Text>
+            </TouchableOpacity>
+          </View>
+        }
         renderItem={({ item }) => (
-          <TouchableOpacity style={[styles.cardContainer, {
-            backgroundColor: dark ? COLORS.dark2 : COLORS.white,
-          }]}>
-            <View style={styles.detailsContainer}>
-              <View>
-                <Image
-                  source={item.image}
-                  resizeMode='cover'
-                  style={styles.serviceImage}
-                />
-                <View style={styles.reviewContainer}>
-                  <Image
-                    source={icons.star}
-                    resizeMode='contain'
-                    style={{ width: 12, height: 12, tintColor: "orange" }}
-                  />
-                  <Text style={styles.rating}>{item.rating}</Text>
-                </View>
-              </View>
-              <View style={styles.detailsRightContainer}>
-                <Text style={[styles.name, {
-                  color: dark ? COLORS.secondaryWhite : COLORS.greyscale900
-                }]}>{item.provider}</Text>
-                <Text style={[styles.address, {
-                  color: dark ? COLORS.grayscale400 : COLORS.grayscale700,
-                }]}>{item.address}</Text>
-                <View style={styles.priceContainer}>
-                  <View style={styles.priceItemContainer}>
-                    <Text style={styles.totalPrice}>${item.price}</Text>
-                  </View>
-                  <View style={styles.statusContainer}>
-                    <Text style={styles.statusText}>{item.status}</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={[styles.separateLine, {
-              marginVertical: 10,
-              backgroundColor: dark ? COLORS.greyScale800 : COLORS.grayscale200,
-            }]} />
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => refRBSheet.current.open()}
-                style={styles.cancelBtn}>
-                <Text style={styles.cancelBtnText}>Cancel Booking</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("EReceipt")}
-                style={styles.receiptBtn}>
-                <Text style={styles.receiptBtnText}>View E-Receipt</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+          <BookingCard 
+            booking={item}
+            onPress={() => {
+              // Navigate to booking details or handle tap
+            }}
+          />
         )}
       />
       <RBSheet
@@ -366,6 +335,38 @@ const styles = StyleSheet.create({
     fontFamily: "semiBold",
     color: COLORS.primary,
     marginLeft: 4
+  },
+  listContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 50,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontFamily: 'bold',
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    fontFamily: 'regular',
+    marginBottom: 20,
+  },
+  clearButton: {
+    width: SIZES.width - 32,
+    height: 40,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+  },
+  clearButtonText: {
+    fontSize: 16,
+    fontFamily: 'semiBold',
   },
 
 })

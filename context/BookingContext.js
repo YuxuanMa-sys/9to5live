@@ -44,19 +44,13 @@ export const BookingProvider = ({ children }) => {
   };
 
   const addBooking = (booking) => {
-    console.log('Adding booking:', booking);
     const newBooking = {
       id: Date.now().toString(),
       ...booking,
       status: 'Confirmed',
       createdAt: new Date().toISOString(),
     };
-    console.log('New booking object:', newBooking);
-    setBookings(prev => {
-      const updatedBookings = [newBooking, ...prev];
-      console.log('Updated bookings array:', updatedBookings);
-      return updatedBookings;
-    });
+    setBookings(prev => [newBooking, ...prev]);
   };
 
   const updateBooking = (id, updates) => {
@@ -76,25 +70,7 @@ export const BookingProvider = ({ children }) => {
   };
 
   const getUpcomingBookings = () => {
-    const now = new Date();
-    console.log('Current date:', now);
-    
-    return bookings.filter(booking => {
-      try {
-        // Parse the date string (format: YYYY/MM/DD)
-        const [year, month, day] = booking.selectedDate.split('/').map(Number);
-        const bookingDate = new Date(year, month - 1, day); // month is 0-indexed
-        
-        console.log('Booking date:', bookingDate, 'for booking:', booking.selectedDate);
-        console.log('Is booking date >= now?', bookingDate >= now);
-        
-        // For now, show all confirmed bookings as upcoming
-        return booking.status !== 'Cancelled';
-      } catch (error) {
-        console.error('Error parsing booking date:', error);
-        return booking.status !== 'Cancelled'; // Show as upcoming if date parsing fails
-      }
-    });
+    return bookings.filter(booking => booking.status !== 'Cancelled');
   };
 
   const getCompletedBookings = () => {

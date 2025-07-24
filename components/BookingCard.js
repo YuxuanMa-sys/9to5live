@@ -46,6 +46,8 @@ const BookingCard = ({ booking, onPress }) => {
 
   // Defensive log for provider
   console.log('BookingCard provider:', booking.provider);
+  // Debug log for selectedDate
+  console.log('BookingCard selectedDate:', booking.selectedDate);
 
   return (
     <TouchableOpacity 
@@ -79,13 +81,16 @@ const BookingCard = ({ booking, onPress }) => {
           </Text>
         </View>
       </View>
-      {/* Date & Time Pill Badge */}
-      <View style={styles.datePillContainer}>
-        <View style={styles.datePill}>
-          <Text style={styles.datePillText}>
-            {getMonthAbbreviation(booking.selectedDate)} {getDay(booking.selectedDate)}
-          </Text>
-          <Text style={styles.datePillTime}>{booking.selectedTime || '09:30'}</Text>
+      {/* Date Section: Month, Day, Time */}
+      <View style={styles.dateSection}>
+        <Text style={styles.dateMonth}>
+          {getMonthAbbreviation(booking.selectedDate).toUpperCase()}
+        </Text>
+        <Text style={styles.dateDay}>
+          {getDay(booking.selectedDate)}
+        </Text>
+        <View style={styles.timePill}>
+          <Text style={styles.timePillText}>{booking.selectedTime || '09:30'}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -152,31 +157,39 @@ const styles = StyleSheet.create({
     ...FONTS.body3,
     fontWeight: '600',
   },
-  datePillContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    minWidth: 70,
-  },
-  datePill: {
-    backgroundColor: COLORS.primary + '22',
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+  dateSection: {
     alignItems: 'center',
+    justifyContent: 'center',
     minWidth: 60,
+    marginLeft: 8,
   },
-  datePillText: {
+  dateMonth: {
+    ...FONTS.body4,
+    color: COLORS.greyscale700,
+    fontWeight: '600',
+    marginBottom: 0,
+    letterSpacing: 1,
+  },
+  dateDay: {
+    ...FONTS.h1,
+    color: COLORS.greyscale900,
+    fontWeight: 'bold',
+    marginBottom: 0,
+    lineHeight: 44,
+  },
+  timePill: {
+    backgroundColor: COLORS.primary + '22',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    marginTop: 4,
+  },
+  timePillText: {
     ...FONTS.body3,
     color: COLORS.primary,
     fontWeight: '700',
     fontSize: 16,
-    marginBottom: 2,
-  },
-  datePillTime: {
-    ...FONTS.body4,
-    color: COLORS.primary,
-    fontWeight: '600',
-    fontSize: 14,
+    textAlign: 'center',
   },
 });
 
