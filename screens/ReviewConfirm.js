@@ -32,7 +32,10 @@ const ReviewConfirm = ({ navigation, route }) => {
 
   // Format date for display
   const formatDate = (dateString) => {
-    const date = new Date(dateString.replace(/\//g, '-'));
+    // Parse the date string properly to avoid timezone issues
+    const [year, month, day] = dateString.split('/').map(Number);
+    const date = new Date(year, month - 1, day); // month is 0-indexed
+    
     const options = { 
       weekday: 'long', 
       year: 'numeric', 

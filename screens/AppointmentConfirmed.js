@@ -40,7 +40,15 @@ const AppointmentConfirmed = ({ navigation, route }) => {
     
     // Try to parse and format the date
     try {
-      const date = new Date(dateString);
+      let date;
+      
+      // If it's a YYYY/MM/DD format, parse it properly
+      if (typeof dateString === 'string' && dateString.includes('/')) {
+        const [year, month, day] = dateString.split('/').map(Number);
+        date = new Date(year, month - 1, day); // month is 0-indexed
+      } else {
+        date = new Date(dateString);
+      }
       if (isNaN(date.getTime())) {
         // Get tomorrow's date as fallback
         const tomorrow = new Date();
