@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeProvider';
 import ReviewStars from '../components/ReviewStars';
 import Button from '../components/Button';
+import MapView, { Marker } from 'react-native-maps';
 
 const TABS = ['SERVICES', 'REVIEWS', 'PORTFOLIO', 'DETAILS'];
 
@@ -426,34 +427,40 @@ const ProviderDetails = ({ navigation }) => {
       <ScrollView style={styles.detailsContainer}>
         <View style={[styles.mapContainer, { 
           backgroundColor: dark ? COLORS.dark2 : COLORS.greyscale500
-        }]}>
-          <View style={styles.mapPlaceholder}>
-            <Text style={[styles.mapText, { 
-              color: dark ? COLORS.grayscale400 : COLORS.greyscale600
-            }]}>
-              Map View
-            </Text>
-          </View>
+        }]}> 
+          <MapView
+            style={{ flex: 1, borderRadius: styles.mapContainer.borderRadius }}
+            initialRegion={{
+              latitude: 40.1106,
+              longitude: -88.2073,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+            scrollEnabled={false}
+            zoomEnabled={false}
+            pitchEnabled={false}
+            rotateEnabled={false}
+          >
+            <Marker
+              coordinate={{ latitude: 40.1106, longitude: -88.2073 }}
+              title={'Urbana Barber'}
+              description={'2707 Milford Drive, Urbana, 61802'}
+            />
+          </MapView>
           <View style={[styles.locationCard, { 
             backgroundColor: dark ? COLORS.dark3 : COLORS.white
-          }]}>
+          }]}> 
             <Image source={images.avatar} style={styles.locationAvatar} />
             <View style={styles.locationInfo}>
               <Text style={[styles.locationName, { 
                 color: dark ? COLORS.white : COLORS.greyscale900
-              }]}>
-                Urbana Barber
-              </Text>
+              }]}>Urbana Barber</Text>
               <Text style={[styles.locationAddress, { 
                 color: dark ? COLORS.grayscale400 : COLORS.greyscale600
-              }]}>
-                2707 Milford Drive Urbana Illinois
-              </Text>
+              }]}>2707 Milford Drive Urbana Illinois</Text>
               <Text style={[styles.locationAddress, { 
                 color: dark ? COLORS.grayscale400 : COLORS.greyscale600
-              }]}>
-                2707 Milford Drive, Urbana, 61802
-              </Text>
+              }]}>2707 Milford Drive, Urbana, 61802</Text>
             </View>
             <TouchableOpacity style={styles.navigationButton}>
               <Image source={icons.location} style={styles.navigationIcon} />

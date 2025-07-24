@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollVi
 import { useTheme } from '../theme/ThemeProvider';
 import { COLORS, FONTS, SIZES, icons, images } from '../constants';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import MapView, { Marker } from 'react-native-maps';
 
 const BookingDetails = () => {
   const { dark } = useTheme();
@@ -10,8 +11,9 @@ const BookingDetails = () => {
   const route = useRoute();
   const { booking } = route.params || {};
 
-  // Placeholder map image (replace with real map if needed)
-  const mapImage = images?.map || images?.background || null;
+  // Fake coordinates for Urbana, IL
+  const latitude = booking.provider?.latitude || 40.1106;
+  const longitude = booking.provider?.longitude || -88.2073;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}> 
@@ -32,7 +34,25 @@ const BookingDetails = () => {
         <View style={styles.statusBadge}><Text style={styles.statusText}>Confirmed</Text></View>
         {/* Map Section */}
         <View style={styles.mapSection}>
-          <Image source={mapImage} style={styles.mapImage} resizeMode="cover" />
+          <MapView
+            style={styles.mapImage}
+            initialRegion={{
+              latitude,
+              longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+            scrollEnabled={false}
+            zoomEnabled={false}
+            pitchEnabled={false}
+            rotateEnabled={false}
+          >
+            <Marker
+              coordinate={{ latitude, longitude }}
+              title={booking.provider?.name || 'Urbana Barber'}
+              description={booking.provider?.address || ''}
+            />
+          </MapView>
           <View style={[styles.providerCard, { backgroundColor: dark ? COLORS.dark2 : COLORS.white }]}> 
             <Image source={booking.provider?.image || images.avatar} style={styles.providerAvatar} />
             <View style={styles.providerInfo}>
@@ -68,7 +88,7 @@ const BookingDetails = () => {
       </ScrollView>
       {/* Action Buttons */}
       <View style={styles.actionRow}>
-        <TouchableOpacity style={[styles.cancelBtn, { borderColor: COLORS.error }]}>
+        <TouchableOpacity style={[styles.cancelBtn, { borderColor: COLORS.error }]}> 
           <Text style={[styles.cancelBtnText, { color: COLORS.error }]}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.changeBtn}>

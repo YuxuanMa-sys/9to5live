@@ -32,7 +32,7 @@
 			<true />
 		</dict>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string></string>
+		<string>We need your location to show the map.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app needs access to your photo library to let you upload images.</string>
 		<key>NSCameraUsageDescription</key>
