@@ -54,6 +54,7 @@ import ReviewSummary from "./ReviewSummary";
 import CategoryServices from "./CategoryServices";
 import ProviderDetails from "./ProviderDetails";
 import BookAppointment from "./BookAppointment";
+import ReviewConfirm from "./ReviewConfirm";
 
 export {
     Onboarding1,
@@ -111,5 +112,6 @@ export {
     ReviewSummary,
     CategoryServices,
     ProviderDetails,
-    BookAppointment
+    BookAppointment,
+    ReviewConfirm
 }

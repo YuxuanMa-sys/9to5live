@@ -183,7 +183,12 @@ const BookAppointment = ({ navigation, route }) => {
         <View style={styles.continueSection}>
           <TouchableOpacity 
             style={styles.continueButton}
-            onPress={() => navigation.navigate("BookingStep1")}
+            onPress={() => navigation.navigate("ReviewConfirm", {
+              service: serviceData,
+              provider: providerData,
+              selectedDate: selectedDate,
+              selectedTime: selectedTime
+            })}
           >
             <Text style={styles.continueButtonText}>Continue</Text>
           </TouchableOpacity>
