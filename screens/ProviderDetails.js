@@ -299,7 +299,17 @@ const ProviderDetails = ({ navigation }) => {
                   {item.description}
                 </Text>
               </View>
-              <TouchableOpacity style={styles.bookButton}>
+              <TouchableOpacity 
+                style={styles.bookButton}
+                onPress={() => navigation.navigate("BookAppointment", { 
+                  service: item,
+                  provider: {
+                    name: "Urbana Barber",
+                    address: "2707 Milford Drive, Urbana, 61802",
+                    staff: "Vallen Thorpe"
+                  }
+                })}
+              >
                 <Text style={styles.bookButtonText}>Book</Text>
               </TouchableOpacity>
             </View>
