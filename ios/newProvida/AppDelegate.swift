@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
 
     factory.startReactNative(
-      withModuleName: "newProvida",
+      withModuleName: "9to5Life",
       in: window,
       launchOptions: launchOptions
     )
