@@ -180,9 +180,10 @@ const styles = StyleSheet.create({
   },
   checkBoxContainer: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginVertical: 18,
+    paddingLeft: 4,
   },
   checkbox: {
     marginRight: 8,

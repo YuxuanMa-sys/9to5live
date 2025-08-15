@@ -187,17 +187,15 @@ const styles = StyleSheet.create({
   },
   checkBoxContainer: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginVertical: 18,
+    paddingLeft: 4,
   },
   checkbox: {
     marginRight: 8,
     height: 16,
     width: 16,
-    borderRadius: 4,
-    borderColor: COLORS.primary,
-    borderWidth: 2,
   },
   privacy: {
     fontSize: 12,
