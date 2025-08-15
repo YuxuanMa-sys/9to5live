@@ -4,35 +4,44 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Signup, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
+import SplashScreen from '../components/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [showSplash, setShowSplash] = useState(true)
 
-    useEffect(() => {
-        const checkIfFirstLaunch = async () => {
-            try {
-                const value = await AsyncStorage.getItem('alreadyLaunched')
-                if (value === null) {
-                    await AsyncStorage.setItem('alreadyLaunched', 'true')
-                    setIsFirstLaunch(true)
-                } else {
-                    setIsFirstLaunch(false)
-                }
-            } catch (error) {
-                setIsFirstLaunch(false)
-            }
-            setIsLoading(false) // Set loading state to false once the check is complete
+  useEffect(() => {
+    const checkIfFirstLaunch = async () => {
+      try {
+        const value = await AsyncStorage.getItem('alreadyLaunched')
+        if (value === null) {
+          await AsyncStorage.setItem('alreadyLaunched', 'true')
+          setIsFirstLaunch(true)
+        } else {
+          setIsFirstLaunch(false)
         }
-
-        checkIfFirstLaunch()
-    }, [])
-
-    if (isLoading) {
-        return null // Render a loader or any other loading state component
+      } catch (error) {
+        setIsFirstLaunch(false)
+      }
+      setIsLoading(false)
     }
+
+    checkIfFirstLaunch()
+  }, [])
+
+  const handleSplashFinish = () => {
+    setShowSplash(false)
+  }
+
+  if (isLoading || showSplash) {
+    if (showSplash) {
+      return <SplashScreen onFinish={handleSplashFinish} />
+    }
+    return null
+  }
 
   return (
     <NavigationContainer>
