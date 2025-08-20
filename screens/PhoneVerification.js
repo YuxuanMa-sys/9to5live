@@ -31,8 +31,8 @@ const PhoneVerification = ({ navigation, route }) => {
   const handleOtpFilled = (text) => {
     setOtpCode(text);
     if (text === VERIFICATION_CODE) {
-      // Success - navigate to main app
-      navigation.navigate("Main");
+      // Success - navigate to location setup
+      navigation.navigate("LocationSetup");
     } else {
       // Show error for wrong code
       Alert.alert('Invalid Code', 'Please enter the correct verification code');
