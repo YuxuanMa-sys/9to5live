@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Signup, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm } from '../screens';
+import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PhoneNumberInput, PhoneVerification, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Signup, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import SplashScreen from '../components/SplashScreen';
 
@@ -55,6 +55,8 @@ const AppNavigation = () => {
                 <Stack.Screen name="Onboarding4" component={Onboarding4}/>
                 <Stack.Screen name="Welcome" component={Welcome}/>
                 <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="PhoneNumberInput" component={PhoneNumberInput}/>
+                <Stack.Screen name="PhoneVerification" component={PhoneVerification}/>
                 <Stack.Screen name="Signup" component={Signup}/>
                 <Stack.Screen name="ForgotPasswordMethods" component={ForgotPasswordMethods}/>
                 <Stack.Screen name="ForgotPasswordEmail" component={ForgotPasswordEmail}/>

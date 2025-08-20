@@ -9,6 +9,8 @@ import ForgotPasswordEmail from "./ForgotPasswordEmail";
 import ForgotPasswordMethods from "./ForgotPasswordMethods";
 import ForgotPasswordPhoneNumber from "./ForgotPasswordPhoneNumber";
 import OTPVerification from "./OTPVerification";
+import PhoneNumberInput from "./PhoneNumberInput";
+import PhoneVerification from "./PhoneVerification";
 import CreateNewPassword from "./CreateNewPassword";
 import FillYourProfile from "./FillYourProfile";
 import CreateNewPIN from "./CreateNewPIN";
@@ -71,6 +73,8 @@ export {
     ForgotPasswordMethods,
     ForgotPasswordPhoneNumber,
     OTPVerification,
+    PhoneNumberInput,
+    PhoneVerification,
     CreateNewPassword,
     FillYourProfile,
     CreateNewPIN,

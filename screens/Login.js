@@ -97,6 +97,27 @@ const Login = ({ navigation }) => {
             icon={icons.padlock}
             secureTextEntry={true}
           />
+          
+          <Button
+            title="Login"
+            filled
+            style={styles.button}
+            onPress={() => {
+              if (formState.formIsValid) {
+                // Navigate to phone number input after successful login
+                navigation.navigate("PhoneNumberInput");
+              } else {
+                Alert.alert('Invalid Input', 'Please check your email and password');
+              }
+            }}
+          />
+          
+          <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <Text style={[styles.forgotPasswordBtnText, {
+              color: COLORS.primary
+            }]}>Forgot Password?</Text>
+          </TouchableOpacity>
+          
           <View style={styles.checkBoxContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CheckBox
@@ -108,16 +129,6 @@ const Login = ({ navigation }) => {
               <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black, marginLeft: 8 }]}>Remember me</Text>
             </View>
           </View>
-          <Button
-            title="Login"
-            filled
-            onPress={() => navigation.navigate("Main")}
-            style={styles.button}
-          />
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ForgotPasswordMethods")}>
-            <Text style={styles.forgotPasswordBtnText}>Forgot the password?</Text>
-          </TouchableOpacity>
           <View>
             <OrSeparator text="or continue with" />
             <View style={styles.socialBtnContainer}>
@@ -231,6 +242,10 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     textAlign: "center",
     marginTop: 12
+  },
+  forgotPasswordContainer: {
+    marginTop: 12,
+    alignItems: 'center',
   }
 })
 
