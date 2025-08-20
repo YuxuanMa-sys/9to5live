@@ -12,6 +12,7 @@ import OTPVerification from "./OTPVerification";
 import PhoneNumberInput from "./PhoneNumberInput";
 import PhoneVerification from "./PhoneVerification";
 import LocationSetup from "./LocationSetup";
+import ProfileSetup from "./ProfileSetup";
 import CreateNewPassword from "./CreateNewPassword";
 import FillYourProfile from "./FillYourProfile";
 import CreateNewPIN from "./CreateNewPIN";
@@ -77,6 +78,7 @@ export {
     PhoneNumberInput,
     PhoneVerification,
     LocationSetup,
+    ProfileSetup,
     CreateNewPassword,
     FillYourProfile,
     CreateNewPIN,

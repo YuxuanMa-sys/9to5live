@@ -349,8 +349,8 @@ const LocationSetup = ({ navigation }) => {
 
     console.log('Saving location:', locationData);
     
-    // Navigate to the next screen (probably Main app)
-    navigation.navigate('Main');
+    // Navigate to the ProfileSetup screen
+    navigation.navigate('ProfileSetup');
   };
 
   const skipLocationSetup = () => {
@@ -359,7 +359,7 @@ const LocationSetup = ({ navigation }) => {
       'You can set up your location later in settings.',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Skip', onPress: () => navigation.navigate('Main') }
+        { text: 'Skip', onPress: () => navigation.navigate('ProfileSetup') }
       ]
     );
   };
