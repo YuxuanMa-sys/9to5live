@@ -8,10 +8,12 @@ import SubHeaderItem from '../components/SubHeaderItem';
 import Category from '../components/Category';
 import ServiceCard from '../components/ServiceCard';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 
 const Home = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { dark, colors } = useTheme();
+  const { user } = useUser();
 
   const renderBannerItem = ({ item }) => (
     <View style={styles.bannerContainer}>
@@ -53,14 +55,14 @@ const Home = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("PersonalProfile")}>
             <Image
-              source={images.user5}
+              source={user.profileImage ? { uri: user.profileImage } : images.user5}
               resizeMode='cover'
               style={styles.avatar}
             />
           </TouchableOpacity>
           <Text style={[styles.username, { 
             color: dark? COLORS.white : COLORS.greyscale900
-          }]}>Hi, Joanna!</Text>
+          }]}>Hi, {user.nickname || (user.fullName ? user.fullName.split(' ')[0] : 'User')}!</Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate("Notifications")}>

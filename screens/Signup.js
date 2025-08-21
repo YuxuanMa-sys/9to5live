@@ -11,6 +11,7 @@ import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import OrSeparator from '../components/OrSeparator';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 
 const isTestMode = true;
 
@@ -32,7 +33,9 @@ const Signup = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isChecked, setChecked] = useState(false);
+  const [showPrivacyError, setShowPrivacyError] = useState(false);
   const { colors, dark } = useTheme();
+  const { signupUser } = useUser();
 
   const inputChangedHandler = useCallback(
     (inputId, inputValue) => {
@@ -102,16 +105,39 @@ const Signup = ({ navigation }) => {
               <CheckBox
                 style={styles.checkbox}
                 value={isChecked}
-                onValueChange={setChecked}
-                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
+                onValueChange={(value) => {
+                  setChecked(value);
+                  if (value) {
+                    setShowPrivacyError(false);
+                  }
+                }}
+                tintColors={{ true: COLORS.primary, false: showPrivacyError ? COLORS.red : (dark ? COLORS.primary : "gray") }}
               />
               <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black, marginLeft: 8 }]}>By continuing you accept our Privacy Policy</Text>
             </View>
+            {showPrivacyError && (
+              <Text style={styles.errorText}>
+                You must accept the Privacy Policy to continue
+              </Text>
+            )}
           </View>
           <Button
             title="Sign Up"
             filled
-            onPress={() => navigation.navigate("FillYourProfile")}
+            onPress={() => {
+              if (!isChecked) {
+                setShowPrivacyError(true);
+                Alert.alert('Privacy Policy Required', 'Please accept our Privacy Policy to continue');
+                return;
+              }
+              if (formState.formIsValid) {
+                // Store initial signup data
+                signupUser(formState.inputValues.email);
+                navigation.navigate("PhoneNumberInput");
+              } else {
+                Alert.alert('Invalid Input', 'Please check your email and password');
+              }
+            }}
             style={styles.button}
           />
           <View>
@@ -186,9 +212,9 @@ const styles = StyleSheet.create({
     marginBottom: 22
   },
   checkBoxContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginVertical: 18,
     paddingLeft: 4,
   },
@@ -201,6 +227,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "regular",
     color: COLORS.black,
+  },
+  errorText: {
+    fontSize: 12,
+    fontFamily: "regular",
+    color: COLORS.red,
+    marginTop: 4,
+    marginLeft: 24,
   },
   socialTitle: {
     fontSize: 19.25,

@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import CountryCodePicker from '../components/CountryCodePicker';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 
 const PhoneNumberInput = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -19,6 +20,7 @@ const PhoneNumberInput = ({ navigation }) => {
   });
   const [isCountryPickerVisible, setIsCountryPickerVisible] = useState(false);
   const { colors, dark } = useTheme();
+  const { updateUser } = useUser();
 
   const validatePhoneNumber = (phone) => {
     // Remove all non-digits for validation
@@ -75,6 +77,13 @@ const PhoneNumberInput = ({ navigation }) => {
 
     // Combine country code with phone number
     const fullPhoneNumber = `${selectedCountry.dialCode} ${phoneNumber.trim()}`;
+    
+    // Save phone number to user context
+    updateUser({ 
+      phoneNumber: fullPhoneNumber,
+      countryCode: selectedCountry.dialCode,
+      countryName: selectedCountry.name 
+    });
     
     // Navigate to verification screen with the full phone number
     navigation.navigate('PhoneVerification', { 

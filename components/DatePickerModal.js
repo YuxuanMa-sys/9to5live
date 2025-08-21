@@ -15,6 +15,8 @@ const DatePickerModal = ({
   const handleDateChange = (date) => {
     setSelectedStartDate(date);
     onChangeStartDate(date);
+    // Auto-close modal when date is selected
+    onClose();
   };
 
   const handleOnPressStartDate = () => {
@@ -35,6 +37,10 @@ const DatePickerModal = ({
             selected={selectedStartDate}
             onDateChange={handleDateChange}
             onSelectedChange={(date) => setSelectedStartDate(date)}
+            onMonthYearChange={(date) => {
+              // Handle month/year changes
+              console.log('Month/Year changed:', date);
+            }}
             options={{
               backgroundColor: COLORS.primary,
               textHeaderColor: COLORS.white,

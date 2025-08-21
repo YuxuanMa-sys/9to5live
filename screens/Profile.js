@@ -6,12 +6,14 @@ import { ScrollView } from 'react-native-virtualized-view';
 import { launchImagePicker } from '../utils/ImagePickerHelper';
 import SettingsItem from '../components/SettingsItem';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 import RBSheet from "react-native-raw-bottom-sheet";
 import Button from '../components/Button';
 
 const Profile = ({ navigation }) => {
   const refRBSheet = useRef();
   const { dark, colors, setScheme } = useTheme();
+  const { user, updateUser, logoutUser } = useUser();
   /**
    * Render Header
    */
@@ -44,7 +46,13 @@ const Profile = ({ navigation }) => {
    * Render User Profile
    */
   const renderProfile = () => {
-    const [image, setImage] = useState(images.user1)
+    // Use user's profile image from context, fallback to default
+    const [image, setImage] = useState(user.profileImage ? { uri: user.profileImage } : images.user1)
+
+    // Update image when user context changes
+    React.useEffect(() => {
+      setImage(user.profileImage ? { uri: user.profileImage } : images.user1);
+    }, [user.profileImage]);
 
     const pickImage = async () => {
       try {
@@ -52,8 +60,9 @@ const Profile = ({ navigation }) => {
 
         if (!tempUri) return
 
-        // set the image
+        // set the image and update user context
         setImage({ uri: tempUri })
+        updateUser({ profileImage: tempUri })
       } catch (error) { }
     };
     return (
@@ -74,8 +83,12 @@ const Profile = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Nathalie Erneson</Text>
-        <Text style={[styles.subtitle, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>nathalie_erneson@gmail.com</Text>
+        <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
+          {user.fullName || 'User Name'}
+        </Text>
+        <Text style={[styles.subtitle, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
+          {user.email || 'user@example.com'}
+        </Text>
       </View>
     )
   }
@@ -257,7 +270,14 @@ const Profile = ({ navigation }) => {
             title="Yes, Logout"
             filled
             style={styles.logoutButton}
-            onPress={() => refRBSheet.current.close()}
+            onPress={async () => {
+              refRBSheet.current.close();
+              await logoutUser();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+              });
+            }}
           />
         </View>
       </RBSheet>

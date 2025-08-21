@@ -11,6 +11,7 @@ import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import OrSeparator from '../components/OrSeparator';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 
 const isTestMode = true;
 
@@ -32,6 +33,7 @@ const Login = ({ navigation }) => {
   const [error, setError] = useState(null);
   const [isChecked, setChecked] = useState(false);
   const { colors, dark } = useTheme();
+  const { loginUser } = useUser();
 
   const inputChangedHandler = useCallback(
     (inputId, inputValue) => {
@@ -104,8 +106,9 @@ const Login = ({ navigation }) => {
             style={styles.button}
             onPress={() => {
               if (formState.formIsValid) {
-                // Navigate to phone number input after successful login
-                navigation.navigate("PhoneNumberInput");
+                // Store user data and navigate to main app
+                loginUser(formState.inputValues.email);
+                navigation.navigate("Main");
               } else {
                 Alert.alert('Invalid Input', 'Please check your email and password');
               }

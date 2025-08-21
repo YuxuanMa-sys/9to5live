@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS, SIZES, FONTS, icons } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
+import { useUser } from '../context/UserContext';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -76,6 +77,7 @@ const ProfileSetup = ({ navigation }) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { colors, dark } = useTheme();
+  const { updateUser } = useUser();
 
   const inputChangedHandler = useCallback(
     (inputId, inputValue) => {
@@ -132,6 +134,13 @@ const ProfileSetup = ({ navigation }) => {
           .filter(interest => selectedInterests.includes(interest.id))
           .map(interest => interest.title),
       };
+
+      // Update user context with profile data
+      updateUser({
+        fullName: fullName.trim(),
+        profileImage: image?.uri || null,
+        interests: selectedInterests,
+      });
 
       console.log('Profile setup data:', profileData);
       
