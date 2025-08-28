@@ -17,10 +17,10 @@ const Welcome = ({ navigation }) => {
           Hello there, continue with and search the services from around the world.
         </Text>
         <View style={{ marginVertical: 32 }}>
-          <SocialButtonV2 title="Continue with Apple" icon={icons.appleLogo} onPress={() => navigation.navigate("Signup")}
+          <SocialButtonV2 title="Continue with Apple" icon={icons.appleLogo} onPress={() => navigation.navigate("Login")}
             iconStyles={{ tintColor: dark ? COLORS.white : COLORS.black }} />
-          <SocialButtonV2 title="Continue with Google" icon={icons.google} onPress={() => navigation.navigate("Signup")} />
-          <SocialButtonV2 title="Continue with Email" icon={icons.email2} onPress={() => navigation.navigate("Signup")} />
+          <SocialButtonV2 title="Continue with Google" icon={icons.google} onPress={() => navigation.navigate("Login")} />
+          <SocialButtonV2 title="Continue with Email" icon={icons.email2} onPress={() => navigation.navigate("Login")} />
         </View>
         <View style={{ flexDirection: "row" }}>
           <Text style={[styles.loginTitle, {

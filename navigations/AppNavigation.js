@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Signup, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm } from '../screens';
+import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateAccount, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPassword, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm, PasswordEntry } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import SplashScreen from '../components/SplashScreen';
 
@@ -12,10 +12,12 @@ const AppNavigation = () => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [showSplash, setShowSplash] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const checkIfFirstLaunch = async () => {
+    const checkAppState = async () => {
       try {
+        // Check if it's first launch
         const value = await AsyncStorage.getItem('alreadyLaunched')
         if (value === null) {
           await AsyncStorage.setItem('alreadyLaunched', 'true')
@@ -23,13 +25,19 @@ const AppNavigation = () => {
         } else {
           setIsFirstLaunch(false)
         }
+
+        // Check if user is logged in
+        const loginStatus = await AsyncStorage.getItem('isLoggedIn')
+        setIsLoggedIn(loginStatus === 'true')
       } catch (error) {
+        console.error('Error checking app state:', error)
         setIsFirstLaunch(false)
+        setIsLoggedIn(false)
       }
       setIsLoading(false)
     }
 
-    checkIfFirstLaunch()
+    checkAppState()
   }, [])
 
   const handleSplashFinish = () => {
@@ -47,15 +55,17 @@ const AppNavigation = () => {
     <NavigationContainer>
             <Stack.Navigator 
               screenOptions={{ headerShown: false }}
-              // After splash screen: first-time users see onboarding, returning users go directly to login
-              initialRouteName={isFirstLaunch ? 'Onboarding1' : 'Login'}>
+              // After splash screen: check if user is logged in, otherwise show onboarding or login
+              initialRouteName={isLoggedIn ? 'Main' : (isFirstLaunch ? 'Onboarding1' : 'Login')}>
                 <Stack.Screen name="Onboarding1" component={Onboarding1}/>
                 <Stack.Screen name="Onboarding2" component={Onboarding2}/>
                 <Stack.Screen name="Onboarding3" component={Onboarding3}/>
                 <Stack.Screen name="Onboarding4" component={Onboarding4}/>
                 <Stack.Screen name="Welcome" component={Welcome}/>
-                <Stack.Screen name="Login" component={Login}/>
-                <Stack.Screen name="Signup" component={Signup}/>
+                                <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="CreateAccount" component={CreateAccount}/>
+                <Stack.Screen name="PasswordEntry" component={PasswordEntry}/>
+                <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
                 <Stack.Screen name="ForgotPasswordMethods" component={ForgotPasswordMethods}/>
                 <Stack.Screen name="ForgotPasswordEmail" component={ForgotPasswordEmail}/>
                 <Stack.Screen name="ForgotPasswordPhoneNumber" component={ForgotPasswordPhoneNumber}/>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
 import { COLORS, SIZES } from '../constants';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -16,7 +16,11 @@ const Input = (props) => {
   };
 
   const onChangeText = (text) => {
-    props.onInputChanged(props.id, text);
+    if (props.onInputChanged) {
+      props.onInputChanged(props.id, text);
+    } else if (props.onChangeText) {
+      props.onChangeText(text);
+    }
   };
 
   return (
@@ -28,6 +32,7 @@ const Input = (props) => {
             borderColor: isFocused ? COLORS.primary : dark ? COLORS.dark2 : COLORS.greyscale500,
             backgroundColor: isFocused ? COLORS.tansparentPrimary : dark ? COLORS.dark2 : COLORS.greyscale500,
           },
+          props.style // Allow custom styling
         ]}
       >
         {props.icon && (
@@ -51,6 +56,19 @@ const Input = (props) => {
           placeholderTextColor={props.placeholderTextColor}
           autoCapitalize='none'
         />
+        {props.rightIcon && (
+          <TouchableOpacity onPress={props.onRightIconPress} style={styles.rightIconContainer}>
+            <Image
+              source={props.rightIcon}
+              style={[
+                styles.rightIcon,
+                {
+                  tintColor: isFocused ? COLORS.primary : '#BCBCBC'
+                }
+              ]}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {props.errorText && (
         <View style={styles.errorContainer}>
@@ -78,6 +96,15 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+    height: 20,
+    width: 20,
+    tintColor: '#BCBCBC',
+  },
+  rightIconContainer: {
+    marginLeft: 10,
+    padding: 5,
+  },
+  rightIcon: {
     height: 20,
     width: 20,
     tintColor: '#BCBCBC',

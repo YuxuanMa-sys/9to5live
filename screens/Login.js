@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, ScrollView, Image, Alert, TouchableOpacity } from 'react-native';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS, SIZES, icons, images } from '../constants';
 import Header from '../components/Header';
 import { reducer } from '../utils/reducers/formReducers';
 import { validateInput } from '../utils/actions/formActions';
 import Input from '../components/Input';
-import CheckBox from '@react-native-community/checkbox';  // 👈 替换了 expo-checkbox
 import Button from '../components/Button';
 import SocialButton from '../components/SocialButton';
 import OrSeparator from '../components/OrSeparator';
@@ -17,20 +17,16 @@ const isTestMode = true;
 const initialState = {
   inputValues: {
     email: isTestMode ? 'example@gmail.com' : '',
-    password: isTestMode ? '**********' : '',
   },
   inputValidities: {
     email: false,
-    password: false
   },
   formIsValid: false,
 }
 
-
 const Login = ({ navigation }) => {
   const [formState, dispatchFormState] = useReducer(reducer, initialState);
   const [error, setError] = useState(null);
-  const [isChecked, setChecked] = useState(false);
   const { colors, dark } = useTheme();
 
   const inputChangedHandler = useCallback(
@@ -59,6 +55,35 @@ const Login = ({ navigation }) => {
     console.log("Google Authentication")
   };
 
+  const continueHandler = async () => {
+    const email = formState.inputValues.email;
+    
+    if (email && email.includes('@')) {
+      try {
+        // Check if user exists in storage
+        const existingUsers = await AsyncStorage.getItem('users');
+        const users = existingUsers ? JSON.parse(existingUsers) : [];
+        
+        const userExists = users.find(user => user.email === email);
+        
+        if (userExists) {
+          // User exists - navigate to password entry
+          navigation.navigate("PasswordEntry", { email: email });
+        } else {
+          // User doesn't exist - navigate to create account
+          navigation.navigate("CreateAccount", { email: email });
+        }
+      } catch (error) {
+        console.error('Error checking user:', error);
+        // Fallback to create account if there's an error
+        navigation.navigate("CreateAccount", { email: email });
+      }
+    } else {
+      // Show error for invalid email
+      Alert.alert('Invalid Email', 'Please enter a valid email address');
+    }
+  };
+
   return (
     <SafeAreaView style={[styles.area, {
       backgroundColor: colors.background
@@ -75,51 +100,19 @@ const Login = ({ navigation }) => {
               style={styles.logo}
             />
           </View>
+          
           <Text style={[styles.title, {
             color: dark ? COLORS.white : COLORS.black
-          }]}>Login to Your Account</Text>
-          <Input
-            id="email"
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['email']}
-            placeholder="Email"
-            placeholderTextColor={dark ? COLORS.grayTie : COLORS.black}
-            icon={icons.email}
-            keyboardType="email-address"
-          />
-          <Input
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['password']}
-            autoCapitalize="none"
-            id="password"
-            placeholder="Password"
-            placeholderTextColor={dark ? COLORS.grayTie : COLORS.black}
-            icon={icons.padlock}
-            secureTextEntry={true}
-          />
-          <View style={styles.checkBoxContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <CheckBox
-                value={isChecked}
-                onValueChange={setChecked}
-                tintColors={{ true: COLORS.primary, false: dark ? COLORS.primary : "gray" }}
-                style={styles.checkbox}
-              />
-              <Text style={[styles.privacy, { color: dark ? COLORS.white : COLORS.black, marginLeft: 8 }]}>Remember me</Text>
-            </View>
-          </View>
-          <Button
-            title="Login"
-            filled
-            onPress={() => navigation.navigate("Main")}
-            style={styles.button}
-          />
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ForgotPasswordMethods")}>
-            <Text style={styles.forgotPasswordBtnText}>Forgot the password?</Text>
-          </TouchableOpacity>
-          <View>
-            <OrSeparator text="or continue with" />
+          }]}>Log in or Sign up</Text>
+          
+          <Text style={[styles.subtitle, {
+            color: dark ? COLORS.grayTie : COLORS.gray
+          }]}>Create an account or log in to book and manage your appointments</Text>
+          
+          <View style={styles.socialSection}>
+            <Text style={[styles.socialTitle, {
+              color: dark ? COLORS.white : COLORS.black
+            }]}>Continue with</Text>
             <View style={styles.socialBtnContainer}>
               <SocialButton
                 icon={icons.appleLogo}
@@ -136,16 +129,26 @@ const Login = ({ navigation }) => {
               />
             </View>
           </View>
+          
+          <OrSeparator text="OR" />
+          
+          <Input
+            id="email"
+            onInputChanged={inputChangedHandler}
+            errorText={formState.inputValidities['email']}
+            placeholder="Email"
+            placeholderTextColor={dark ? COLORS.grayTie : COLORS.black}
+            icon={icons.email}
+            keyboardType="email-address"
+          />
+          
+          <Button
+            title="Continue"
+            filled
+            onPress={continueHandler}
+            style={styles.button}
+          />
         </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Text style={[styles.bottomLeft, {
-            color: dark ? COLORS.white : COLORS.black
-          }]}>Don't have an account ?</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Signup")}>
-            <Text style={styles.bottomRight}>{"  "}Sign Up</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </SafeAreaView>
   )
@@ -172,65 +175,41 @@ const styles = StyleSheet.create({
     marginVertical: 32
   },
   title: {
-    fontSize: 26,
-    fontFamily: "semiBold",
+    fontSize: 28,
+    fontFamily: "bold",
     color: COLORS.black,
     textAlign: "center",
-    marginBottom: 22
+    marginBottom: 12
   },
-  checkBoxContainer: {
-    flexDirection: "row",
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginVertical: 18,
-    paddingLeft: 4,
-  },
-  checkbox: {
-    marginRight: 8,
-    height: 16,
-    width: 16,
-  },
-  privacy: {
-    fontSize: 12,
+  subtitle: {
+    fontSize: 16,
     fontFamily: "regular",
+    color: COLORS.gray,
+    textAlign: "center",
+    marginBottom: 32,
+    paddingHorizontal: 20,
+    lineHeight: 22
+  },
+  socialSection: {
+    marginBottom: 24
+  },
+  socialTitle: {
+    fontSize: 18,
+    fontFamily: "medium",
     color: COLORS.black,
+    textAlign: "center",
+    marginBottom: 20
   },
   socialBtnContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  },
-  bottomContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 18,
-    position: "absolute",
-    bottom: 12,
-    right: 0,
-    left: 0,
-  },
-  bottomLeft: {
-    fontSize: 14,
-    fontFamily: "regular",
-    color: "black"
-  },
-  bottomRight: {
-    fontSize: 16,
-    fontFamily: "medium",
-    color: COLORS.primary
+    gap: 16
   },
   button: {
-    marginVertical: 6,
+    marginVertical: 24,
     width: SIZES.width - 32,
     borderRadius: 30
-  },
-  forgotPasswordBtnText: {
-    fontSize: 16,
-    fontFamily: "semiBold",
-    color: COLORS.primary,
-    textAlign: "center",
-    marginTop: 12
   }
 })
 

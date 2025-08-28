@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-virtualized-view';
 import { launchImagePicker } from '../utils/ImagePickerHelper';
 import SettingsItem from '../components/SettingsItem';
@@ -12,6 +13,47 @@ import Button from '../components/Button';
 const Profile = ({ navigation }) => {
   const refRBSheet = useRef();
   const { dark, colors, setScheme } = useTheme();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Load current user data
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('currentUser');
+        if (userData) {
+          setCurrentUser(JSON.parse(userData));
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      }
+    };
+
+    loadUserData();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      // Clear user session
+      await AsyncStorage.removeItem('currentUser');
+      await AsyncStorage.removeItem('isLoggedIn');
+      
+      // Close the logout confirmation modal
+      refRBSheet.current.close();
+      
+      // Navigate back to Login page
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Still navigate to login even if there's an error
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    }
+  };
   /**
    * Render Header
    */
@@ -74,8 +116,12 @@ const Profile = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Nathalie Erneson</Text>
-        <Text style={[styles.subtitle, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>nathalie_erneson@gmail.com</Text>
+        <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
+          {currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'User Name'}
+        </Text>
+        <Text style={[styles.subtitle, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
+          {currentUser ? currentUser.email : 'user@email.com'}
+        </Text>
       </View>
     )
   }
@@ -257,7 +303,7 @@ const Profile = ({ navigation }) => {
             title="Yes, Logout"
             filled
             style={styles.logoutButton}
-            onPress={() => refRBSheet.current.close()}
+            onPress={handleLogout}
           />
         </View>
       </RBSheet>

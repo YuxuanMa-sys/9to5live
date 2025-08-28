@@ -99,7 +99,7 @@ const ForgotPasswordEmail = ({ navigation }) => {
                         color: dark ? COLORS.white : COLORS.black
                     }]}>Don't have an account ?</Text>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Signup")}>
+                        onPress={() => navigation.navigate("Login")}>
                         <Text style={styles.bottomRight}>{"  "}Sign Up</Text>
                     </TouchableOpacity>
                 </View>

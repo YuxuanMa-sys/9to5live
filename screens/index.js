@@ -4,7 +4,9 @@ import Onboarding3 from "./Onboarding3";
 import Onboarding4 from "./Onboarding4";
 import Welcome from "./Welcome";
 import Login from "./Login";
-import Signup from "./Signup";
+import CreateAccount from "./CreateAccount";
+import PasswordEntry from "./PasswordEntry";
+import ForgotPassword from "./ForgotPassword";
 import ForgotPasswordEmail from "./ForgotPasswordEmail";
 import ForgotPasswordMethods from "./ForgotPasswordMethods";
 import ForgotPasswordPhoneNumber from "./ForgotPasswordPhoneNumber";
@@ -65,8 +67,10 @@ export {
     Onboarding3,
     Onboarding4,
     Welcome,
-    Login,
-    Signup,
+        Login,
+    CreateAccount,
+    PasswordEntry,
+    ForgotPassword,
     ForgotPasswordEmail,
     ForgotPasswordMethods,
     ForgotPasswordPhoneNumber,
