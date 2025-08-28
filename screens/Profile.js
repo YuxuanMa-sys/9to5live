@@ -30,7 +30,14 @@ const Profile = ({ navigation }) => {
     };
 
     loadUserData();
-  }, []);
+    
+    // Listen for navigation focus to reload data
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadUserData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const handleLogout = async () => {
     try {
@@ -75,24 +82,41 @@ const Profile = ({ navigation }) => {
     return 'CN¥'; // Default to Chinese Yuan
   };
 
+  // Handle profile image upload
+  const handleProfileImageUpload = async () => {
+    try {
+      const imageUri = await launchImagePicker();
+      if (imageUri) {
+        // Update user data with new profile image
+        const updatedUser = {
+          ...currentUser,
+          profileImage: imageUri
+        };
+        
+        await AsyncStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        setCurrentUser(updatedUser);
+        
+        // Update users array
+        const users = await AsyncStorage.getItem('users');
+        if (users) {
+          const usersArray = JSON.parse(users);
+          const updatedUsers = usersArray.map(user => 
+            user.email === currentUser.email ? updatedUser : user
+          );
+          await AsyncStorage.setItem('users', JSON.stringify(updatedUsers));
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading profile image:', error);
+    }
+  };
+
 
 
   /**
    * Render User Profile
    */
   const renderProfile = () => {
-    const [image, setImage] = useState(images.user1)
-
-    const pickImage = async () => {
-      try {
-        const tempUri = await launchImagePicker()
-
-        if (!tempUri) return
-
-        // set the image
-        setImage({ uri: tempUri })
-      } catch (error) { }
-    };
 
     return (
       <View style={styles.profileContainer}>
@@ -105,13 +129,21 @@ const Profile = ({ navigation }) => {
           </Text>
         </View>
         <TouchableOpacity
-          onPress={pickImage}
+          onPress={handleProfileImageUpload}
           style={styles.avatarContainer}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>
-              {currentUser ? `${currentUser.firstName?.charAt(0)}${currentUser.lastName?.charAt(0)}` : 'MY'}
-            </Text>
-          </View>
+          {currentUser?.profileImage ? (
+            <Image 
+              source={{ uri: currentUser.profileImage }} 
+              style={styles.avatar}
+              resizeMode="cover"
+            />
+          ) : (
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>
+                {currentUser ? `${currentUser.firstName?.charAt(0)}${currentUser.lastName?.charAt(0)}` : 'MY'}
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
     )
