@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateAccount, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, FillYourProfile, Fingerprint, ForgotPassword, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm, PasswordEntry } from '../screens';
+import { AddNewCard, AddNewPaymentMethod, AddNewPaymentMethodDeclined, AddNewPaymentMethodSuccess, AppointmentConfirmed, BookingDetails, BookingStep1, BookAppointment, Call, CancelBooking, CancelBookingPaymentMethods, ChangeEmail, ChangePIN, ChangePassword, Chat, CreateAccount, CreateNewPIN, CreateNewPassword, CustomerService, EReceipt, EditProfile, MyProfile, FillYourProfile, Fingerprint, ForgotPassword, ForgotPasswordEmail, ForgotPasswordMethods, ForgotPasswordPhoneNumber, HelpCenter, InviteFriends, Login, MyBookings, Notifications, OTPVerification, Onboarding1, Onboarding2, Onboarding3, Onboarding4, PaymentMethod, PaymentMethods, PopularServices, ProviderDetails, ReviewConfirm, ReviewSummary, Search, ServiceDetails, ServiceDetailsReviews, SettingsLanguage, SettingsNotifications, SettingsPayment, SettingsPrivacyPolicy, SettingsSecurity, Welcome, YourAddress, CategoryServices, EditAppointment, EditReviewConfirm, PasswordEntry } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import SplashScreen from '../components/SplashScreen';
 
@@ -76,6 +76,7 @@ const AppNavigation = () => {
                 <Stack.Screen name="Fingerprint" component={Fingerprint}/>
                 <Stack.Screen name="Main" component={BottomTabNavigation}/>
                 <Stack.Screen name="EditProfile" component={EditProfile}/>
+                <Stack.Screen name="MyProfile" component={MyProfile}/>
                 <Stack.Screen name="SettingsNotifications" component={SettingsNotifications}/>
                 <Stack.Screen name='SettingsPayment' component={SettingsPayment}/>
                 <Stack.Screen name="AddNewCard" component={AddNewCard}/>

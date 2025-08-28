@@ -336,6 +336,7 @@ const CreateAccount = ({ navigation, route }) => {
         lastName: lastName.trim(),
         password: password.trim(),
         mobileNumber: countryCode + mobileNumber,
+        countryCode: countryCode,
         marketingAccepted,
         createdAt: new Date().toISOString()
       };

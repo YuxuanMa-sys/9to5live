@@ -10,6 +10,7 @@ import { useTheme } from '../theme/ThemeProvider';
 import RBSheet from "react-native-raw-bottom-sheet";
 import Button from '../components/Button';
 
+
 const Profile = ({ navigation }) => {
   const refRBSheet = useRef();
   const { dark, colors, setScheme } = useTheme();
@@ -54,34 +55,28 @@ const Profile = ({ navigation }) => {
       });
     }
   };
-  /**
-   * Render Header
-   */
-  const renderHeader = () => {
-    return (
-      <TouchableOpacity style={styles.headerContainer}>
-        <View style={styles.headerLeft}>
-          <Image
-            source={images.logo}
-            resizeMode='contain'
-            style={styles.logo}
-          />
-          <Text style={[styles.headerTitle, {
-            color: dark ? COLORS.white : COLORS.greyscale900
-          }]}>Profile</Text>
-        </View>
-        <TouchableOpacity>
-          <Image
-            source={icons.moreCircle}
-            resizeMode='contain'
-            style={[styles.headerIcon, {
-              tintColor: dark ? COLORS.secondaryWhite : COLORS.greyscale900
-            }]}
-          />
-        </TouchableOpacity>
-      </TouchableOpacity>
-    )
-  }
+
+  // Get currency based on country code
+  const getCurrency = () => {
+    if (!currentUser?.countryCode) return 'CN¥';
+    
+    const countryCode = currentUser.countryCode;
+    if (countryCode === '+86') return 'CN¥';
+    if (countryCode === '+1') return '$';
+    if (countryCode === '+44') return '£';
+    if (countryCode === '+49') return '€';
+    if (countryCode === '+81') return '¥';
+    if (countryCode === '+91') return '₹';
+    if (countryCode === '+61') return 'A$';
+    if (countryCode === '+33') return '€';
+    if (countryCode === '+39') return '€';
+    if (countryCode === '+34') return '€';
+    
+    return 'CN¥'; // Default to Chinese Yuan
+  };
+
+
+
   /**
    * Render User Profile
    */
@@ -98,165 +93,182 @@ const Profile = ({ navigation }) => {
         setImage({ uri: tempUri })
       } catch (error) { }
     };
+
     return (
       <View style={styles.profileContainer}>
-        <View>
-          <Image
-            source={image}
-            resizeMode='cover'
-            style={styles.avatar}
-          />
-          <TouchableOpacity
-            onPress={pickImage}
-            style={styles.picContainer}>
-            <Image
-              source={icons.editPencil}
-              resizeMode='contain'
-              style={{ width: 16, height: 16, tintColor: COLORS.white }}
-            />
+        <View style={styles.nameContainer}>
+          <Text style={[styles.userName, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+            {currentUser ? `${currentUser.lastName} ${currentUser.firstName}` : 'Ma Yuxuan'}
+          </Text>
+          <Text style={[styles.profileSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
+            Personal profile
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={pickImage}
+          style={styles.avatarContainer}>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>
+              {currentUser ? `${currentUser.firstName?.charAt(0)}${currentUser.lastName?.charAt(0)}` : 'MY'}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  /**
+   * Render Wallet Balance Card
+   */
+  const renderWalletCard = () => {
+    return (
+      <View style={styles.walletCardContainer}>
+        <View style={styles.walletGradient}>
+          <Text style={styles.walletTitle}>Wallet balance</Text>
+          <Text style={styles.walletAmount}>{getCurrency()}0.00</Text>
+          <TouchableOpacity style={styles.viewWalletButton}>
+            <Text style={styles.viewWalletText}>View wallet</Text>
           </TouchableOpacity>
         </View>
-        <Text style={[styles.title, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
-          {currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'User Name'}
-        </Text>
-        <Text style={[styles.subtitle, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>
-          {currentUser ? currentUser.email : 'user@email.com'}
-        </Text>
       </View>
     )
   }
+
   /**
-   * Render Settings
+   * Render Menu Items
    */
-  const renderSettings = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    const toggleDarkMode = () => {
-      setIsDarkMode((prev) => !prev);
-      dark ? setScheme('light') : setScheme('dark')
-    };
-
+  const renderMenuItems = () => {
     return (
-      <View style={styles.settingsContainer}>
-        <SettingsItem
-          icon={icons.calendar}
-          name="My Booking"
-          onPress={() => navigation.navigate("MyBookings")}
-        />
-        <SettingsItem
-          icon={icons.userOutline}
-          name="Edit Profile"
-          onPress={() => navigation.navigate("EditProfile")}
-        />
-        <SettingsItem
-          icon={icons.bell2}
-          name="Notification"
-          onPress={() => navigation.navigate("SettingsNotifications")}
-        />
-        <SettingsItem
-          icon={icons.wallet2Outline}
-          name="Payment"
-          onPress={() => navigation.navigate("SettingsPayment")}
-        />
-        <SettingsItem
-          icon={icons.shieldOutline}
-          name="Security"
-          onPress={() => navigation.navigate("SettingsSecurity")}
-        />
-        <TouchableOpacity
-          onPress={() => navigation.navigate("SettingsLanguage")}
-          style={styles.settingsItemContainer}>
-          <View style={styles.leftContainer}>
-            <Image
-              source={icons.more}
-              resizeMode='contain'
-              style={[styles.settingsIcon, {
-                tintColor: dark ? COLORS.white : COLORS.greyscale900
-              }]}
-            />
-            <Text style={[styles.settingsName, {
-              color: dark ? COLORS.white : COLORS.greyscale900
-            }]}>Language & Region</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <Text style={[styles.rightLanguage, {
-              color: dark ? COLORS.white : COLORS.greyscale900
-            }]}>English (US)</Text>
-            <Image
-              source={icons.arrowRight}
-              resizeMode='contain'
-              style={[styles.settingsArrowRight, {
-                tintColor: dark ? COLORS.white : COLORS.greyscale900
-              }]}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsItemContainer}>
-          <View style={styles.leftContainer}>
-            <Image
-              source={icons.show}
-              resizeMode='contain'
-              style={[styles.settingsIcon, {
-                tintColor: dark ? COLORS.white : COLORS.greyscale900
-              }]}
-            />
-            <Text style={[styles.settingsName, {
-              color: dark ? COLORS.white : COLORS.greyscale900
-            }]}>Dark Mode</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <Switch
-              value={isDarkMode}
-              onValueChange={toggleDarkMode}
-              thumbColor={isDarkMode ? '#fff' : COLORS.white}
-              trackColor={{ false: '#EEEEEE', true: COLORS.primary }}
-              ios_backgroundColor={COLORS.white}
-              style={styles.switch}
-            />
-          </View>
-        </TouchableOpacity>
-        <SettingsItem
-          icon={icons.lockedComputerOutline}
-          name="Privacy Policy"
-          onPress={() => navigation.navigate("SettingsPrivacyPolicy")}
-        />
-        <SettingsItem
-          icon={icons.infoCircle}
-          name="Help Center"
-          onPress={() => navigation.navigate("HelpCenter")}
-        />
-        <SettingsItem
-          icon={icons.people4}
-          name="Invite Friends"
-          onPress={() => navigation.navigate("InviteFriends")}
-        />
-        <TouchableOpacity
-          onPress={() => refRBSheet.current.open()}
-          style={styles.logoutContainer}>
-          <View style={styles.logoutLeftContainer}>
-            <Image
-              source={icons.logout}
-              resizeMode='contain'
-              style={[styles.logoutIcon, {
-                tintColor: "red"
-              }]}
-            />
-            <Text style={[styles.logoutName, {
-              color: "red"
-            }]}>Logout</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={styles.menuCardsContainer}>
+        {/* First Card - Top 6 items */}
+        <View style={[
+          styles.menuCard, 
+          { backgroundColor: dark ? COLORS.dark2 : COLORS.white }
+        ]}>
+          <TouchableOpacity 
+            style={[
+              styles.menuItem, 
+              { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+            ]}
+            onPress={() => navigation.navigate('MyProfile')}
+          >
+            <Image source={icons.user} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Profile</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+          ]}>
+            <Image source={icons.heartOutline} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Favourites</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+          ]}>
+            <Image source={icons.bag} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Send a gift card</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+          ]}>
+            <Image source={icons.document} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Forms</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+          ]}>
+            <Image source={icons.bag} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Product orders</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: 'transparent' }
+          ]}>
+            <Image source={icons.settings} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Settings</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Second Card - Support and English */}
+        <View style={[
+          styles.menuCard, 
+          { backgroundColor: dark ? COLORS.dark2 : COLORS.white }
+        ]}>
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+          ]}>
+            <Image source={icons.headset} style={[
+              styles.menuIcon, 
+              { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
+            ]} />
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Support</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+            styles.menuItem, 
+            { borderBottomColor: 'transparent' }
+          ]}>
+            <View style={styles.flagContainer}>
+              <Text style={styles.flagText}>🇬🇧</Text>
+            </View>
+            <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>English</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Third Card - Logout */}
+        <View style={[
+          styles.menuCard, 
+          { backgroundColor: dark ? COLORS.dark2 : COLORS.white }
+        ]}>
+          <TouchableOpacity 
+            style={[
+              styles.menuItem, 
+              { borderBottomColor: 'transparent' }
+            ]}
+            onPress={() => refRBSheet.current.open()}
+          >
+            <Image source={icons.logout} style={[styles.menuIcon, { tintColor: '#EF4444' }]} />
+            <Text style={[styles.menuText, { color: '#EF4444' }]}>Log out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
+
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {renderHeader()}
         <ScrollView showsVerticalScrollIndicator={false}>
           {renderProfile()}
-          {renderSettings()}
+          {renderWalletCard()}
+          {renderMenuItems()}
         </ScrollView>
       </View>
       <RBSheet
@@ -322,130 +334,121 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 32
   },
-  headerContainer: {
+
+  profileContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginBottom: 24
   },
-  headerLeft: {
-    flexDirection: "row",
-    alignItems: "center"
+  nameContainer: {
+    flex: 1
   },
-  logo: {
-    height: 32,
-    width: 32,
-    tintColor: COLORS.primary
-  },
-  headerTitle: {
-    fontSize: 22,
+  userName: {
+    fontSize: 28,
     fontFamily: "bold",
     color: COLORS.greyscale900,
-    marginLeft: 12
+    marginBottom: 4
   },
-  headerIcon: {
-    height: 24,
-    width: 24,
-    tintColor: COLORS.greyscale900
+  profileSubtitle: {
+    fontSize: 16,
+    color: COLORS.grayscale600,
+    fontFamily: "medium"
   },
-  profileContainer: {
+  avatarContainer: {
     alignItems: "center",
-    borderBottomColor: COLORS.grayscale400,
-    borderBottomWidth: .4,
-    paddingVertical: 20
+    justifyContent: "center"
   },
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 999
-  },
-  picContainer: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#F3F4F6',
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.primary,
-    position: "absolute",
-    right: 0,
-    bottom: 12
+    borderWidth: 2,
+    borderColor: '#E5E7EB'
   },
-  title: {
-    fontSize: 18,
+  avatarText: {
+    fontSize: 20,
     fontFamily: "bold",
-    color: COLORS.greyscale900,
-    marginTop: 12
+    color: '#8B5CF6'
   },
-  subtitle: {
+  walletCardContainer: {
+    marginBottom: 24
+  },
+  walletGradient: {
+    borderRadius: 16,
+    padding: 20,
+    alignItems: "flex-start",
+    backgroundColor: '#8B5CF6'
+  },
+  walletTitle: {
     fontSize: 16,
-    color: COLORS.greyscale900,
     fontFamily: "medium",
-    marginTop: 4
+    color: COLORS.white,
+    marginBottom: 8
   },
-  settingsContainer: {
-    marginVertical: 12
+  walletAmount: {
+    fontSize: 32,
+    fontFamily: "bold",
+    color: COLORS.white,
+    marginBottom: 16
   },
-  settingsItemContainer: {
-    width: SIZES.width - 32,
+  viewWalletButton: {
+    borderWidth: 1,
+    borderColor: COLORS.white,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8
+  },
+  viewWalletText: {
+    fontSize: 14,
+    fontFamily: "medium",
+    color: COLORS.white
+  },
+  menuCardsContainer: {
+    gap: 16,
+  },
+  menuCard: {
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginVertical: 12
+    paddingVertical: 16,
+    borderBottomWidth: 1,
   },
-  leftContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  settingsIcon: {
-    height: 24,
+  menuIcon: {
     width: 24,
-    tintColor: COLORS.greyscale900
+    height: 24,
+    marginRight: 16,
   },
-  settingsName: {
-    fontSize: 18,
-    fontFamily: "semiBold",
+  menuText: {
+    fontSize: 16,
+    fontFamily: "medium",
     color: COLORS.greyscale900,
-    marginLeft: 12
+    flex: 1
   },
-  settingsArrowRight: {
+  flagContainer: {
     width: 24,
     height: 24,
-    tintColor: COLORS.greyscale900
-  },
-  rightContainer: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  rightLanguage: {
-    fontSize: 18,
-    fontFamily: "semiBold",
-    color: COLORS.greyscale900,
-    marginRight: 8
-  },
-  switch: {
-    marginLeft: 8,
-    transform: [{ scaleX: .8 }, { scaleY: .8 }], // Adjust the size of the switch
-  },
-  logoutContainer: {
-    width: SIZES.width - 32,
-    flexDirection: "row",
+    marginRight: 16,
     alignItems: "center",
-    justifyContent: "space-between",
-    marginVertical: 12
+    justifyContent: "center"
   },
-  logoutLeftContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  logoutIcon: {
-    height: 24,
-    width: 24,
-    tintColor: COLORS.greyscale900
-  },
-  logoutName: {
-    fontSize: 18,
-    fontFamily: "semiBold",
-    color: COLORS.greyscale900,
-    marginLeft: 12
+  flagText: {
+    fontSize: 20
   },
   bottomContainer: {
     flexDirection: "row",
@@ -453,11 +456,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 12,
     paddingHorizontal: 16
-  },
-  cancelButton: {
-    width: (SIZES.width - 32) / 2 - 8,
-    backgroundColor: COLORS.tansparentPrimary,
-    borderRadius: 32
   },
   logoutButton: {
     width: (SIZES.width - 32) / 2 - 8,

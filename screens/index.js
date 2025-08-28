@@ -16,6 +16,7 @@ import FillYourProfile from "./FillYourProfile";
 import CreateNewPIN from "./CreateNewPIN";
 import Fingerprint from "./Fingerprint";
 import EditProfile from "./EditProfile";
+import MyProfile from "./MyProfile";
 import SettingsNotifications from "./SettingsNotifications";
 import SettingsPayment from "./SettingsPayment";
 import AddNewCard from "./AddNewCard";
@@ -80,6 +81,7 @@ export {
     CreateNewPIN,
     Fingerprint,
     EditProfile,
+    MyProfile,
     SettingsNotifications,
     SettingsPayment,
     AddNewCard,
