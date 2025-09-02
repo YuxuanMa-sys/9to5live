@@ -11,6 +11,7 @@ const MyProfile = ({ navigation }) => {
   const { dark, colors } = useTheme();
   const [currentUser, setCurrentUser] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
+  const [userAddresses, setUserAddresses] = useState([]);
 
   // Load current user data
   useEffect(() => {
@@ -23,6 +24,10 @@ const MyProfile = ({ navigation }) => {
           if (user.profileImage) {
             setProfileImage({ uri: user.profileImage });
           }
+          
+          // Load user addresses
+          const addresses = await AsyncStorage.getItem(`addresses_${user.email}`) || '[]';
+          setUserAddresses(JSON.parse(addresses));
         }
       } catch (error) {
         console.error('Error loading user data:', error);
@@ -75,18 +80,64 @@ const MyProfile = ({ navigation }) => {
   };
 
   const handleAddAddress = () => {
-    // Navigate to add address page
-    console.log('Add address pressed');
+    // Navigate to address search page for custom address
+    navigation.navigate('AddressSearch', { addressType: 'Custom' });
   };
 
   const handleHomeAddress = () => {
-    // Navigate to home address page
-    console.log('Home address pressed');
+    // Navigate to address search page for home
+    navigation.navigate('AddressSearch', { addressType: 'Home' });
   };
 
   const handleWorkAddress = () => {
-    // Navigate to work address page
-    console.log('Work address pressed');
+    // Navigate to address search page for work
+    navigation.navigate('AddressSearch', { addressType: 'Work' });
+  };
+
+  const handleEditAddress = (address) => {
+    // Navigate to address search page for editing
+    if (address.type === 'Custom') {
+      navigation.navigate('CustomAddressConfirm', {
+        address: address.address,
+        coordinates: address.coordinates,
+        editMode: true,
+        existingAddress: address
+      });
+    } else {
+      navigation.navigate('AddressSearch', { 
+        addressType: address.type,
+        editMode: true,
+        existingAddress: address
+      });
+    }
+  };
+
+  const handleDeleteAddress = async (addressId) => {
+    try {
+      Alert.alert(
+        'Delete Address',
+        'Are you sure you want to delete this address?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: async () => {
+              const updatedAddresses = userAddresses.filter(addr => addr.id !== addressId);
+              setUserAddresses(updatedAddresses);
+              
+              // Save updated addresses to AsyncStorage
+              await AsyncStorage.setItem(`addresses_${currentUser.email}`, JSON.stringify(updatedAddresses));
+            },
+          },
+        ]
+      );
+    } catch (error) {
+      console.error('Error deleting address:', error);
+    }
   };
 
   /**
@@ -213,45 +264,92 @@ const MyProfile = ({ navigation }) => {
           My addresses
         </Text>
 
-        <TouchableOpacity 
-          style={[
-            styles.addressCard, 
-            { backgroundColor: dark ? COLORS.dark1 : COLORS.grayscale100 }
-          ]}
-          onPress={handleHomeAddress}
-        >
-          <View style={styles.addressIconContainer}>
-            <Image source={icons.home} style={styles.addressIcon} />
+        {/* Render saved addresses */}
+        {userAddresses.map((address) => (
+          <View 
+            key={address.id}
+            style={[
+              styles.addressCard, 
+              { backgroundColor: dark ? COLORS.dark1 : COLORS.grayscale100 }
+            ]}
+          >
+            <View style={styles.addressIconContainer}>
+              <Image 
+                source={address.type === 'Home' ? icons.home : 
+                       address.type === 'Work' ? icons.bag : 
+                       icons.location} 
+                style={styles.addressIcon} 
+              />
+            </View>
+            <View style={styles.addressContent}>
+              <Text style={[styles.addressType, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+                {address.type === 'Custom' ? address.name : address.type}
+              </Text>
+              <Text style={[styles.addressSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
+                {address.address}
+              </Text>
+            </View>
+            <View style={styles.addressActions}>
+              <TouchableOpacity 
+                style={styles.actionButton}
+                onPress={() => handleEditAddress(address)}
+              >
+                <Image source={icons.editPencil} style={styles.actionIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.actionButton}
+                onPress={() => handleDeleteAddress(address.id)}
+              >
+                <Image source={icons.trash} style={styles.actionIcon} />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.addressContent}>
-            <Text style={[styles.addressType, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
-              Home
-            </Text>
-            <Text style={[styles.addressSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
-              Add a home address
-            </Text>
-          </View>
-        </TouchableOpacity>
+        ))}
 
-        <TouchableOpacity 
-          style={[
-            styles.addressCard, 
-            { backgroundColor: dark ? COLORS.dark1 : COLORS.grayscale100 }
-          ]}
-          onPress={handleWorkAddress}
-        >
-          <View style={styles.addressIconContainer}>
-            <Image source={icons.bag} style={styles.addressIcon} />
-          </View>
-          <View style={styles.addressContent}>
-            <Text style={[styles.addressType, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
-              Work
-            </Text>
-            <Text style={[styles.addressSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
-              Add a work address
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {/* Render add buttons for missing address types */}
+        {!userAddresses.find(addr => addr.type === 'Home') && (
+          <TouchableOpacity 
+            style={[
+              styles.addressCard, 
+              { backgroundColor: dark ? COLORS.dark1 : COLORS.grayscale100 }
+            ]}
+            onPress={handleHomeAddress}
+          >
+            <View style={styles.addressIconContainer}>
+              <Image source={icons.home} style={styles.addressIcon} />
+            </View>
+            <View style={styles.addressContent}>
+              <Text style={[styles.addressType, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+                Home
+              </Text>
+              <Text style={[styles.addressSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
+                Add a home address
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+
+        {!userAddresses.find(addr => addr.type === 'Work') && (
+          <TouchableOpacity 
+            style={[
+              styles.addressCard, 
+              { backgroundColor: dark ? COLORS.dark1 : COLORS.grayscale100 }
+            ]}
+            onPress={handleWorkAddress}
+          >
+            <View style={styles.addressIconContainer}>
+              <Image source={icons.bag} style={styles.addressIcon} />
+            </View>
+            <View style={styles.addressContent}>
+              <Text style={[styles.addressType, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>
+                Work
+              </Text>
+              <Text style={[styles.addressSubtitle, { color: dark ? COLORS.grayscale400 : COLORS.grayscale600 }]}>
+                Add a work address
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity 
           style={[
@@ -449,6 +547,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'regular',
     color: COLORS.grayscale600
+  },
+  addressActions: {
+    flexDirection: 'row',
+    gap: 10
+  },
+  actionButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: COLORS.grayscale200,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  actionIcon: {
+    width: 18,
+    height: 18,
+    tintColor: COLORS.grayscale600
   },
   addButton: {
     flexDirection: 'row',

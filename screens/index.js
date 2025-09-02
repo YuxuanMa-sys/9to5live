@@ -61,6 +61,9 @@ import ReviewConfirm from "./ReviewConfirm";
 import AppointmentConfirmed from "./AppointmentConfirmed";
 import EditAppointment from "./EditAppointment";
 import EditReviewConfirm from "./EditReviewConfirm";
+import AddressSearch from "./AddressSearch";
+import AddressConfirm from "./AddressConfirm";
+import CustomAddressConfirm from "./CustomAddressConfirm";
 
 export {
     Onboarding1,
@@ -125,5 +128,8 @@ export {
     ReviewConfirm,
     AppointmentConfirmed,
     EditAppointment,
-    EditReviewConfirm
+    EditReviewConfirm,
+    AddressSearch,
+    AddressConfirm,
+    CustomAddressConfirm
 }

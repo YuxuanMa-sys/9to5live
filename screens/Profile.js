@@ -191,10 +191,13 @@ const Profile = ({ navigation }) => {
             <Text style={[styles.menuText, { color: dark ? COLORS.white : COLORS.greyscale900 }]}>Profile</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={[
-            styles.menuItem, 
-            { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
-          ]}>
+          <TouchableOpacity 
+            style={[
+              styles.menuItem, 
+              { borderBottomColor: dark ? COLORS.greyScale800 : COLORS.grayscale200 }
+            ]}
+            onPress={() => navigation.navigate('Favourite')}
+          >
             <Image source={icons.heartOutline} style={[
               styles.menuIcon, 
               { tintColor: dark ? COLORS.white : COLORS.greyscale900 }
